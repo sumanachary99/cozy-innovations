@@ -1,0 +1,153 @@
+/* Page Header */
+.page-header {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: 100px 0 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header-glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  background: radial-gradient(ellipse at center top, rgba(201, 162, 39, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.page-header h1 {
+  font-size: 2.8rem;
+  margin-bottom: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  position: relative;
+}
+
+.page-header p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  position: relative;
+}
+
+/* Products Section */
+.products-section {
+  background-color: var(--bg-primary);
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.product-card {
+  background: var(--gradient-card);
+  border: 1px solid var(--border-color);
+  padding: 40px 30px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  transition: all var(--transition-normal);
+  display: block;
+  color: var(--text-primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.product-card:hover {
+  border-color: var(--accent-gold-dark);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+  color: var(--text-primary);
+}
+
+.product-card:hover::before {
+  opacity: 1;
+}
+
+.product-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(201, 162, 39, 0.1);
+  border-radius: 50%;
+  color: var(--accent-gold);
+  transition: all var(--transition-normal);
+}
+
+.product-card:hover .product-icon-wrapper {
+  background: var(--accent-gold);
+  color: var(--bg-primary);
+  transform: scale(1.1);
+}
+
+.product-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.product-card p {
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.product-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent-gold);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast);
+}
+
+.product-card:hover .product-link {
+  gap: 10px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    padding: 80px 0 60px;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-card {
+    padding: 32px 24px;
+  }
+}
