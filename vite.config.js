@@ -6,6 +6,6 @@ import react from '@vitejs/plugin-react'
 // For custom domain: set base to '/'
 export default defineConfig({
   plugins: [react()],
-  base: '/',
+  base: '/cozy-innovations/',
 })
 
