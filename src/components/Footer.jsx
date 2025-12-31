@@ -1,7 +1,22 @@
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
+import {
+  Box,
+  Container,
+  SimpleGrid,
+  VStack,
+  HStack,
+  Text,
+  Heading,
+  Link,
+  Button,
+  Divider,
+  Flex,
+  Wrap,
+  WrapItem,
+  Icon,
+} from '@chakra-ui/react'
 import { Phone, MapPin, Clock, Mail, ArrowUpRight } from 'lucide-react'
 import Logo from './Logo'
-import './Footer.css'
 
 const Footer = () => {
   const currentYear = new Date().getFullYear()
@@ -9,97 +24,191 @@ const Footer = () => {
   const quickLinks = [
     { to: '/', label: 'Home' },
     { to: '/galleries', label: 'Our Work' },
-    { to: '/contact', label: 'Contact Us' }
+    { to: '/contact', label: 'Contact Us' },
   ]
 
   const services = [
     { to: '/products/construction', label: 'Construction' },
     { to: '/products/interior', label: 'Interior Designing' },
     { to: '/products/custom-furniture', label: 'Custom Furniture' },
-    { to: '/products/automotive', label: 'Automotive' }
+    { to: '/products/automotive', label: 'Automotive' },
   ]
 
   const locations = ['Bangalore', 'Mysuru', 'Hassan']
 
+  const FooterLink = ({ to, children }) => (
+    <Link
+      as={RouterLink}
+      to={to}
+      color="gray.400"
+      fontSize="sm"
+      _hover={{ color: 'brand.500' }}
+      transition="color 0.2s"
+    >
+      {children}
+    </Link>
+  )
+
+  const ContactItem = ({ icon: IconComponent, children, href }) => (
+    <HStack spacing={3} align="flex-start">
+      <Box color="brand.500" mt={0.5}>
+        <IconComponent size={18} />
+      </Box>
+      {href ? (
+        <Link
+          href={href}
+          color="gray.400"
+          fontSize="sm"
+          _hover={{ color: 'brand.500' }}
+          transition="color 0.2s"
+        >
+          {children}
+        </Link>
+      ) : (
+        <Text color="gray.400" fontSize="sm">
+          {children}
+        </Text>
+      )}
+    </HStack>
+  )
+
   return (
-    <footer className="footer">
-      <div className="footer-glow" />
-      <div className="container">
-        <div className="footer-content">
-          <div className="footer-section footer-brand">
+    <Box
+      as="footer"
+      bg="dark.300"
+      position="relative"
+      overflow="hidden"
+      pt={{ base: 12, md: 16 }}
+      pb={{ base: 6, md: 8 }}
+    >
+      {/* Glow effect */}
+      <Box
+        position="absolute"
+        top={0}
+        left="50%"
+        transform="translateX(-50%)"
+        w="100%"
+        h="200px"
+        bgGradient="radial(ellipse at center top, rgba(201, 162, 39, 0.1) 0%, transparent 70%)"
+        pointerEvents="none"
+      />
+
+      <Container maxW="1200px" position="relative">
+        <SimpleGrid
+          columns={{ base: 1, sm: 2, lg: 4 }}
+          spacing={{ base: 8, md: 10 }}
+          mb={{ base: 10, md: 12 }}
+        >
+          {/* Brand Section */}
+          <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={4}>
             <Logo size="default" showText={true} />
-            <p className="footer-description">
-              Transforming spaces with premium furniture, expert construction, and innovative interior solutions since 2012.
-            </p>
-            <div className="footer-cta">
-              <Link to="/contact" className="btn btn-outline">
-                Get a Quote <ArrowUpRight size={16} />
-              </Link>
-            </div>
-          </div>
+            <Text
+              color="gray.400"
+              fontSize="sm"
+              lineHeight="tall"
+              textAlign={{ base: 'center', sm: 'left' }}
+            >
+              Transforming spaces with premium furniture, expert construction, and
+              innovative interior solutions since 2012.
+            </Text>
+            <Button
+              as={RouterLink}
+              to="/contact"
+              variant="outline"
+              size="sm"
+              rightIcon={<ArrowUpRight size={16} />}
+            >
+              Get a Quote
+            </Button>
+          </VStack>
 
-          <div className="footer-section">
-            <h4>Quick Links</h4>
-            <ul className="footer-links">
+          {/* Quick Links */}
+          <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={4}>
+            <Heading as="h4" size="sm" color="white">
+              Quick Links
+            </Heading>
+            <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={2}>
               {quickLinks.map((link) => (
-                <li key={link.to}>
-                  <Link to={link.to}>{link.label}</Link>
-                </li>
+                <FooterLink key={link.to} to={link.to}>
+                  {link.label}
+                </FooterLink>
               ))}
-            </ul>
-          </div>
+            </VStack>
+          </VStack>
 
-          <div className="footer-section">
-            <h4>Services</h4>
-            <ul className="footer-links">
+          {/* Services */}
+          <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={4}>
+            <Heading as="h4" size="sm" color="white">
+              Services
+            </Heading>
+            <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={2}>
               {services.map((service) => (
-                <li key={service.to}>
-                  <Link to={service.to}>{service.label}</Link>
-                </li>
+                <FooterLink key={service.to} to={service.to}>
+                  {service.label}
+                </FooterLink>
               ))}
-            </ul>
-          </div>
+            </VStack>
+          </VStack>
 
-          <div className="footer-section footer-contact">
-            <h4>Contact Us</h4>
-            <div className="contact-item">
-              <Phone size={18} />
-              <a href="tel:+919071234091" className="contact-link">
+          {/* Contact */}
+          <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={4}>
+            <Heading as="h4" size="sm" color="white">
+              Contact Us
+            </Heading>
+            <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={3}>
+              <ContactItem icon={Phone} href="tel:+919071234091">
                 +91 90712 34091
-              </a>
-            </div>
-            <div className="contact-item">
-              <Mail size={18} />
-              <a href="mailto:info@cozyinnovations.com" className="contact-link">
+              </ContactItem>
+              <ContactItem icon={Mail} href="mailto:info@cozyinnovations.com">
                 info@cozyinnovations.com
-              </a>
-            </div>
-            <div className="contact-item">
-              <Clock size={18} />
-              <span>Mon - Sat: 9:00 AM - 7:00 PM</span>
-            </div>
-            <div className="contact-item locations-item">
-              <MapPin size={18} />
-              <div className="locations-list">
-                {locations.map((location, index) => (
-                  <span key={location} className="location-tag">
-                    {location}
-                    {index < locations.length - 1 && <span className="separator">|</span>}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+              </ContactItem>
+              <ContactItem icon={Clock}>Mon - Sat: 9:00 AM - 7:00 PM</ContactItem>
+              <HStack spacing={3} align="flex-start">
+                <Box color="brand.500" mt={0.5}>
+                  <MapPin size={18} />
+                </Box>
+                <Wrap spacing={1}>
+                  {locations.map((location, index) => (
+                    <WrapItem key={location}>
+                      <Text color="gray.400" fontSize="sm">
+                        {location}
+                        {index < locations.length - 1 && (
+                          <Text as="span" color="dark.50" mx={1}>
+                            |
+                          </Text>
+                        )}
+                      </Text>
+                    </WrapItem>
+                  ))}
+                </Wrap>
+              </HStack>
+            </VStack>
+          </VStack>
+        </SimpleGrid>
 
-        <div className="footer-divider" />
+        <Divider borderColor="dark.50" />
 
-        <div className="footer-bottom">
-          <p>&copy; {currentYear} Cozy Innovations. All rights reserved.</p>
-          <p className="footer-tagline">Building Your Dreams</p>
-        </div>
-      </div>
-    </footer>
+        <Flex
+          direction={{ base: 'column', md: 'row' }}
+          justify="space-between"
+          align="center"
+          pt={{ base: 6, md: 8 }}
+          gap={2}
+        >
+          <Text color="gray.500" fontSize="sm">
+            &copy; {currentYear} Cozy Innovations. All rights reserved.
+          </Text>
+          <Text
+            color="brand.500"
+            fontSize="sm"
+            fontWeight={500}
+            letterSpacing="wide"
+          >
+            Building Your Dreams
+          </Text>
+        </Flex>
+      </Container>
+    </Box>
   )
 }
 

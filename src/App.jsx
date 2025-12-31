@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Box } from '@chakra-ui/react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -6,14 +7,13 @@ import Products from './pages/Products'
 import ProductCategory from './pages/ProductCategory'
 import Galleries from './pages/Galleries'
 import Contact from './pages/Contact'
-import './App.css'
 
 function App() {
   return (
     <Router basename="/cozy-innovations">
-      <div className="App">
+      <Box minH="100vh" bg="dark.400">
         <Navbar />
-        <main>
+        <Box as="main" pt={{ base: '64px', md: '72px' }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
@@ -21,12 +21,11 @@ function App() {
             <Route path="/galleries" element={<Galleries />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
-        </main>
+        </Box>
         <Footer />
-      </div>
+      </Box>
     </Router>
   )
 }
 
 export default App
-

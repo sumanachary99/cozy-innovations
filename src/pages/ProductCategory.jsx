@@ -1,5 +1,25 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link as RouterLink } from 'react-router-dom'
 import { useState, useMemo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+  Box,
+  Container,
+  SimpleGrid,
+  VStack,
+  HStack,
+  Heading,
+  Text,
+  Button,
+  Link,
+  Center,
+  Flex,
+  Image,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  IconButton,
+  Badge,
+} from '@chakra-ui/react'
 import {
   ArrowLeft,
   Check,
@@ -12,11 +32,11 @@ import {
   Armchair,
   X,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react'
-import AnimatedSection, { StaggerContainer, StaggerItem } from '../components/AnimatedSection'
 import getCategoryImages from '../utils/imageLoader'
-import './ProductCategory.css'
+
+const MotionBox = motion(Box)
 
 const ProductCategory = () => {
   const { category } = useParams()
@@ -28,43 +48,84 @@ const ProductCategory = () => {
     construction: {
       name: 'Construction',
       icon: Building2,
-      description: 'Professional construction services for residential and commercial projects. Quality workmanship guaranteed.',
-      features: ['Expert Team', 'Quality Materials', 'Timely Completion', 'Project Management', 'Permits Handling', 'Safety Compliance']
+      description:
+        'Professional construction services for residential and commercial projects. Quality workmanship guaranteed.',
+      features: [
+        'Expert Team',
+        'Quality Materials',
+        'Timely Completion',
+        'Project Management',
+        'Permits Handling',
+        'Safety Compliance',
+      ],
     },
     interior: {
       name: 'Interior Designing',
       icon: PaintBucket,
-      description: 'Expert interior design solutions to transform your spaces. From concept to completion, we bring your vision to life.',
-      features: ['3D Visualization', 'Space Planning', 'Color Consultation', 'Complete Execution', 'Furniture Selection', 'Lighting Design']
+      description:
+        'Expert interior design solutions to transform your spaces. From concept to completion, we bring your vision to life.',
+      features: [
+        '3D Visualization',
+        'Space Planning',
+        'Color Consultation',
+        'Complete Execution',
+        'Furniture Selection',
+        'Lighting Design',
+      ],
     },
     'custom-furniture': {
       name: 'Custom Furniture',
       icon: Sofa,
-      description: 'Transform your living space with our custom furniture solutions. Recliners, sofas, and more designed to fit your space perfectly.',
-      features: ['Custom Sizing', 'Fabric Selection', 'Leather Options', 'Modular Options', 'Expert Design', 'Premium Upholstery'],
+      description:
+        'Transform your living space with our custom furniture solutions. Recliners, sofas, and more designed to fit your space perfectly.',
+      features: [
+        'Custom Sizing',
+        'Fabric Selection',
+        'Leather Options',
+        'Modular Options',
+        'Expert Design',
+        'Premium Upholstery',
+      ],
       subcategories: [
-        { id: 'leather-furniture', name: 'Leather Furniture', icon: Armchair, description: 'Premium leather recliners, armchairs, and accent pieces' },
-        { id: 'modern-sofa', name: 'Modern Sofas', icon: Sofa, description: 'Contemporary sofas and sectionals for modern living' }
-      ]
+        {
+          id: 'leather-furniture',
+          name: 'Leather Furniture',
+          icon: Armchair,
+          description: 'Premium leather recliners, armchairs, and accent pieces',
+        },
+        {
+          id: 'modern-sofa',
+          name: 'Modern Sofas',
+          icon: Sofa,
+          description: 'Contemporary sofas and sectionals for modern living',
+        },
+      ],
     },
     automotive: {
       name: 'Automotive',
       icon: Car,
-      description: 'Premium car seat covers and upholstery services. Protect and enhance your vehicle\'s interior with our quality solutions.',
-      features: ['Premium Materials', 'Perfect Fit', 'Easy Installation', 'Multiple Colors', 'Leather Options', 'Custom Designs']
-    }
+      description:
+        "Premium car seat covers and upholstery services. Protect and enhance your vehicle's interior with our quality solutions.",
+      features: [
+        'Premium Materials',
+        'Perfect Fit',
+        'Easy Installation',
+        'Multiple Colors',
+        'Leather Options',
+        'Custom Designs',
+      ],
+    },
   }
 
   const data = categoryData[category] || {
     name: 'Product',
     icon: Building2,
     description: 'Explore our quality products and services.',
-    features: []
+    features: [],
   }
 
   const Icon = data.icon
 
-  // Get images using useMemo to prevent recalculation on every render
   const allImages = useMemo(() => {
     if (category) {
       return getCategoryImages(category)
@@ -72,13 +133,13 @@ const ProductCategory = () => {
     return []
   }, [category])
 
-  // Filter images based on active subcategory
   const images = useMemo(() => {
     if (activeSubcategory === 'all') {
       return allImages
     }
-    const subcatName = activeSubcategory === 'leather-furniture' ? 'Leather Furniture' : 'Modern Sofa'
-    return allImages.filter(img => img.subcategory === subcatName)
+    const subcatName =
+      activeSubcategory === 'leather-furniture' ? 'Leather Furniture' : 'Modern Sofa'
+    return allImages.filter((img) => img.subcategory === subcatName)
   }, [allImages, activeSubcategory])
 
   const openLightbox = (index) => {
@@ -105,154 +166,398 @@ const ProductCategory = () => {
   }
 
   return (
-    <div className="product-category-page">
-      <section className="category-header">
-        <div className="category-header-glow" />
-        <div className="container">
-          <AnimatedSection>
-            <Link to="/" className="back-link">
+    <Box>
+      {/* Category Header */}
+      <Box
+        as="section"
+        position="relative"
+        py={{ base: 12, md: 20 }}
+        overflow="hidden"
+      >
+        <Box
+          position="absolute"
+          top={0}
+          left="50%"
+          transform="translateX(-50%)"
+          w="100%"
+          h="100%"
+          bgGradient="radial(ellipse at center top, rgba(201, 162, 39, 0.15) 0%, transparent 60%)"
+          pointerEvents="none"
+        />
+        <Container maxW="1200px" position="relative">
+          <MotionBox
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            {/* Back Link - Left aligned */}
+            <Link
+              as={RouterLink}
+              to="/"
+              color="#c9a227"
+              fontSize="sm"
+              display="inline-flex"
+              alignItems="center"
+              gap={2}
+              mb={8}
+              _hover={{ color: '#d4af37' }}
+            >
               <ArrowLeft size={18} /> Back to Home
             </Link>
-            <div className="category-header-content">
-              <div className="category-icon-large">
+
+            {/* Header Content - Centered */}
+            <VStack spacing={6} textAlign="center">
+              <Center
+                w={{ base: '80px', md: '100px' }}
+                h={{ base: '80px', md: '100px' }}
+                rounded="2xl"
+                bg="whiteAlpha.100"
+                color="#c9a227"
+              >
                 <Icon size={48} />
-              </div>
-              <h1>{data.name}</h1>
-              <p className="category-description">{data.description}</p>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
+              </Center>
+
+              <Heading
+                as="h1"
+                fontSize={{ base: '3xl', md: '5xl' }}
+                fontWeight={700}
+                bgGradient="linear(to-r, #d4af37, white)"
+                bgClip="text"
+              >
+                {data.name}
+              </Heading>
+
+              <Text
+                color="gray.400"
+                fontSize={{ base: 'md', md: 'lg' }}
+                maxW="700px"
+              >
+                {data.description}
+              </Text>
+            </VStack>
+          </MotionBox>
+        </Container>
+      </Box>
 
       {/* Subcategory Cards for Custom Furniture */}
       {data.subcategories && (
-        <section className="subcategories-section section">
-          <div className="container">
-            <AnimatedSection>
-              <h2 className="section-title">Choose a Category</h2>
-            </AnimatedSection>
-            <div className="subcategories-grid">
-              {data.subcategories.map((subcat) => {
-                const SubIcon = subcat.icon
-                return (
-                  <div
-                    key={subcat.id}
-                    className={`subcategory-card ${activeSubcategory === subcat.id ? 'active' : ''}`}
-                    onClick={() => setActiveSubcategory(activeSubcategory === subcat.id ? 'all' : subcat.id)}
-                  >
-                    <div className="subcategory-icon">
-                      <SubIcon size={40} />
-                    </div>
-                    <h3>{subcat.name}</h3>
-                    <p>{subcat.description}</p>
-                    <span className="subcategory-count">
-                      {allImages.filter(img => img.subcategory === (subcat.id === 'leather-furniture' ? 'Leather Furniture' : 'Modern Sofa')).length} images
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
-            {activeSubcategory !== 'all' && (
-              <button className="show-all-btn" onClick={() => setActiveSubcategory('all')}>
-                Show All Furniture
-              </button>
-            )}
-          </div>
-        </section>
-      )}
+        <Box as="section" py={{ base: 8, md: 12 }}>
+          <Container maxW="1200px">
+            <VStack spacing={8}>
+              <Heading as="h2" size="lg" color="white" textAlign="center">
+                Choose a Category
+              </Heading>
 
-      <section className="category-content section">
-        <div className="container">
-          <div className="category-details">
-            <AnimatedSection className="category-info" delay={0.1}>
-              <h2>Features</h2>
-              <StaggerContainer className="features-list" staggerDelay={0.08}>
-                {data.features.map((feature, index) => (
-                  <StaggerItem key={index}>
-                    <li>
-                      <Check size={20} className="feature-check" />
-                      {feature}
-                    </li>
-                  </StaggerItem>
-                ))}
-              </StaggerContainer>
-            </AnimatedSection>
-
-            <AnimatedSection className="category-gallery" delay={0.2}>
-              <h2>Gallery ({images.length} images)</h2>
-              {images.length > 0 ? (
-                <div className="category-images-grid">
-                  {images.map((image, index) => (
-                    <div
-                      key={index}
-                      className="category-image-item"
-                      onClick={() => openLightbox(index)}
+              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6} w="full" maxW="800px" mx="auto">
+                {data.subcategories.map((subcat) => {
+                  const SubIcon = subcat.icon
+                  const isActive = activeSubcategory === subcat.id
+                  return (
+                    <Box
+                      key={subcat.id}
+                      as="button"
+                      onClick={() =>
+                        setActiveSubcategory(isActive ? 'all' : subcat.id)
+                      }
+                      bg={isActive ? 'rgba(201, 162, 39, 0.1)' : '#1a1a1a'}
+                      border="2px solid"
+                      borderColor={isActive ? '#c9a227' : '#2a2a2a'}
+                      borderRadius="xl"
+                      p={6}
+                      textAlign="center"
+                      transition="all 0.3s"
+                      _hover={{
+                        borderColor: '#c9a227',
+                        transform: 'translateY(-4px)',
+                      }}
                     >
-                      <img
-                        src={image.src}
-                        alt={image.name}
-                        loading="lazy"
-                        onError={(e) => {
-                          console.error('Image failed to load:', image.src)
-                          e.target.parentElement.style.display = 'none'
-                        }}
-                      />
-                      {image.subcategory && (
-                        <span className="image-tag">{image.subcategory}</span>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="gallery-placeholder">
-                  <div className="gallery-icon">
-                    <Icon size={48} />
-                  </div>
-                  <p>Images coming soon</p>
-                </div>
+                      <VStack spacing={3}>
+                        <Center
+                          w="60px"
+                          h="60px"
+                          rounded="xl"
+                          bg={isActive ? '#c9a227' : 'whiteAlpha.100'}
+                          color={isActive ? '#0a0a0a' : '#c9a227'}
+                        >
+                          <SubIcon size={32} />
+                        </Center>
+                        <Heading as="h3" size="md" color="white">
+                          {subcat.name}
+                        </Heading>
+                        <Text color="gray.400" fontSize="sm">
+                          {subcat.description}
+                        </Text>
+                        <Badge colorScheme="yellow" variant="subtle">
+                          {allImages.filter(
+                            (img) =>
+                              img.subcategory ===
+                              (subcat.id === 'leather-furniture'
+                                ? 'Leather Furniture'
+                                : 'Modern Sofa')
+                          ).length}{' '}
+                          images
+                        </Badge>
+                      </VStack>
+                    </Box>
+                  )
+                })}
+              </SimpleGrid>
+
+              {activeSubcategory !== 'all' && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setActiveSubcategory('all')}
+                >
+                  Show All Furniture
+                </Button>
               )}
-            </AnimatedSection>
-          </div>
-
-          <AnimatedSection delay={0.3}>
-            <div className="category-cta">
-              <h2>Interested in {data.name}?</h2>
-              <p>Contact us for a free consultation and quote</p>
-              <div className="category-cta-buttons">
-                <Link to="/contact" className="btn">
-                  Get Quote <ArrowRight size={18} />
-                </Link>
-                <a href="tel:+919071234091" className="btn btn-secondary">
-                  <Phone size={18} /> +91 90712 34091
-                </a>
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Lightbox */}
-      {selectedImage && (
-        <div className="lightbox" onClick={closeLightbox}>
-          <button className="lightbox-close" onClick={closeLightbox}>
-            <X size={32} />
-          </button>
-          <button className="lightbox-nav lightbox-prev" onClick={prevImage}>
-            <ChevronLeft size={40} />
-          </button>
-          <div className="lightbox-content" onClick={e => e.stopPropagation()}>
-            <img src={selectedImage.src} alt={selectedImage.name} />
-            <p className="lightbox-caption">{selectedImage.name}</p>
-          </div>
-          <button className="lightbox-nav lightbox-next" onClick={nextImage}>
-            <ChevronRight size={40} />
-          </button>
-          <div className="lightbox-counter">
-            {currentIndex + 1} / {images.length}
-          </div>
-        </div>
+            </VStack>
+          </Container>
+        </Box>
       )}
-    </div>
+
+      {/* Category Content */}
+      <Box as="section" py={{ base: 6, md: 10 }}>
+        <Container maxW="1200px">
+          {/* Features - Horizontal compact layout */}
+          <MotionBox
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            mb={{ base: 8, md: 12 }}
+          >
+            <Heading as="h2" size="md" color="white" mb={4}>
+              Features
+            </Heading>
+            <Flex flexWrap="wrap" gap={3}>
+              {data.features.map((feature, index) => (
+                <HStack
+                  key={index}
+                  py={2}
+                  px={4}
+                  bg="whiteAlpha.50"
+                  borderRadius="full"
+                  spacing={2}
+                >
+                  <Box color="#c9a227" flexShrink={0}>
+                    <Check size={16} />
+                  </Box>
+                  <Text color="gray.300" fontSize="sm">
+                    {feature}
+                  </Text>
+                </HStack>
+              ))}
+            </Flex>
+          </MotionBox>
+
+          {/* Gallery - Larger images */}
+          <MotionBox
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Heading as="h2" size="md" color="white" mb={4}>
+              Gallery
+            </Heading>
+
+            {images.length > 0 ? (
+              <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={4} w="full">
+                {images.map((image, index) => (
+                  <Box
+                    key={index}
+                    position="relative"
+                    borderRadius="xl"
+                    overflow="hidden"
+                    cursor="pointer"
+                    onClick={() => openLightbox(index)}
+                    transition="all 0.3s"
+                    aspectRatio="1"
+                    _hover={{
+                      transform: 'scale(1.03)',
+                      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)',
+                    }}
+                  >
+                    <Image
+                      src={image.src}
+                      alt={image.name}
+                      w="full"
+                      h="full"
+                      objectFit="cover"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.parentElement.style.display = 'none'
+                      }}
+                    />
+                    {image.subcategory && (
+                      <Badge
+                        position="absolute"
+                        bottom={2}
+                        left={2}
+                        bg="rgba(0,0,0,0.7)"
+                        color="#c9a227"
+                        fontSize="xs"
+                        px={2}
+                        py={1}
+                        borderRadius="md"
+                      >
+                        {image.subcategory}
+                      </Badge>
+                    )}
+                  </Box>
+                ))}
+              </SimpleGrid>
+            ) : (
+              <Center
+                w="full"
+                h="300px"
+                bg="#1a1a1a"
+                borderRadius="xl"
+                border="1px dashed"
+                borderColor="#2a2a2a"
+              >
+                <VStack spacing={3} color="gray.500">
+                  <Icon size={48} />
+                  <Text>Images coming soon</Text>
+                </VStack>
+              </Center>
+            )}
+          </MotionBox>
+
+          {/* CTA */}
+          <MotionBox
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            mt={{ base: 16, md: 24 }}
+          >
+            <Box
+              bg="#1a1a1a"
+              borderRadius="2xl"
+              border="1px solid"
+              borderColor="#2a2a2a"
+              p={{ base: 8, md: 12 }}
+              textAlign="center"
+            >
+              <VStack spacing={4}>
+                <Heading as="h2" size="lg" color="white">
+                  Interested in {data.name}?
+                </Heading>
+                <Text color="gray.400">
+                  Contact us for a free consultation and quote
+                </Text>
+                <Flex
+                  direction={{ base: 'column', sm: 'row' }}
+                  gap={4}
+                  pt={4}
+                  w={{ base: 'full', sm: 'auto' }}
+                >
+                  <Button
+                    as={RouterLink}
+                    to="/contact"
+                    variant="primary"
+                    size="lg"
+                    rightIcon={<ArrowRight size={18} />}
+                    w={{ base: 'full', sm: 'auto' }}
+                  >
+                    Get Quote
+                  </Button>
+                  <Button
+                    as={Link}
+                    href="tel:+919071234091"
+                    variant="secondary"
+                    size="lg"
+                    leftIcon={<Phone size={18} />}
+                    w={{ base: 'full', sm: 'auto' }}
+                  >
+                    +91 90712 34091
+                  </Button>
+                </Flex>
+              </VStack>
+            </Box>
+          </MotionBox>
+        </Container>
+      </Box>
+
+      {/* Lightbox Modal */}
+      <Modal isOpen={!!selectedImage} onClose={closeLightbox} size="6xl" isCentered>
+        <ModalOverlay bg="blackAlpha.900" backdropFilter="blur(8px)" />
+        <ModalContent bg="transparent" boxShadow="none" maxW="90vw">
+          <IconButton
+            icon={<X size={28} />}
+            position="absolute"
+            top={-12}
+            right={0}
+            onClick={closeLightbox}
+            variant="ghost"
+            color="white"
+            size="lg"
+            aria-label="Close"
+            _hover={{ bg: 'whiteAlpha.200' }}
+          />
+
+          <Flex align="center" justify="center" position="relative">
+            <IconButton
+              icon={<ChevronLeft size={36} />}
+              position="absolute"
+              left={{ base: 0, md: -16 }}
+              onClick={prevImage}
+              variant="ghost"
+              color="white"
+              size="lg"
+              rounded="full"
+              bg="whiteAlpha.200"
+              _hover={{ bg: '#c9a227', color: '#0a0a0a' }}
+              aria-label="Previous"
+            />
+
+            <Box maxH="80vh" maxW="80vw">
+              <AnimatePresence mode="wait">
+                {selectedImage && (
+                  <MotionBox
+                    key={currentIndex}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Image
+                      src={selectedImage.src}
+                      alt={selectedImage.name}
+                      maxH="75vh"
+                      maxW="80vw"
+                      objectFit="contain"
+                      borderRadius="lg"
+                    />
+                    <Text color="white" textAlign="center" mt={4} fontSize="lg">
+                      {selectedImage.name}
+                    </Text>
+                  </MotionBox>
+                )}
+              </AnimatePresence>
+            </Box>
+
+            <IconButton
+              icon={<ChevronRight size={36} />}
+              position="absolute"
+              right={{ base: 0, md: -16 }}
+              onClick={nextImage}
+              variant="ghost"
+              color="white"
+              size="lg"
+              rounded="full"
+              bg="whiteAlpha.200"
+              _hover={{ bg: '#c9a227', color: '#0a0a0a' }}
+              aria-label="Next"
+            />
+          </Flex>
+
+          <Text color="gray.400" textAlign="center" mt={4}>
+            {currentIndex + 1} / {images.length}
+          </Text>
+        </ModalContent>
+      </Modal>
+    </Box>
   )
 }
 

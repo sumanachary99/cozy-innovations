@@ -1,20 +1,32 @@
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import {
+  Box,
+  Container,
+  VStack,
+  HStack,
+  Heading,
+  Text,
+  Button,
+  IconButton,
+  Flex,
+  Link,
+  Center,
+} from '@chakra-ui/react'
 import {
   Building2,
   Sofa,
   Car,
   PaintBucket,
-  MapPin,
   ArrowRight,
   Phone,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
 } from 'lucide-react'
-import AnimatedSection from '../components/AnimatedSection'
-import Logo from '../components/Logo'
-import './Home.css'
+// Motion components
+const MotionBox = motion(Box)
+const MotionVStack = motion(VStack)
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -24,37 +36,35 @@ const Home = () => {
     {
       icon: Building2,
       title: 'Construction',
-      description: 'Professional construction services for residential and commercial projects. Quality workmanship guaranteed.',
+      description:
+        'Professional construction services for residential and commercial projects. Quality workmanship guaranteed.',
       link: '/products/construction',
-      highlight: 'Expert Team • Quality Materials • Timely Delivery'
+      highlight: 'Expert Team • Quality Materials • Timely Delivery',
     },
     {
       icon: PaintBucket,
       title: 'Interior Designing',
-      description: 'Transform your spaces with our expert interior design solutions. From concept to completion.',
+      description:
+        'Transform your spaces with our expert interior design solutions. From concept to completion.',
       link: '/products/interior',
-      highlight: '3D Visualization • Space Planning • Complete Execution'
+      highlight: '3D Visualization • Space Planning • Complete Execution',
     },
     {
       icon: Sofa,
       title: 'Custom Furniture',
-      description: 'Recliners, sofas, and custom furniture crafted to perfection. Designed to fit your space.',
+      description:
+        'Recliners, sofas, and custom furniture crafted to perfection. Designed to fit your space.',
       link: '/products/custom-furniture',
-      highlight: 'Premium Materials • Custom Sizing • Leather Options'
+      highlight: 'Premium Materials • Custom Sizing • Leather Options',
     },
     {
       icon: Car,
       title: 'Automotive',
-      description: 'Premium car seat covers and upholstery services. Protect and enhance your vehicle interior.',
+      description:
+        'Premium car seat covers and upholstery services. Protect and enhance your vehicle interior.',
       link: '/products/automotive',
-      highlight: 'Perfect Fit • Multiple Colors • Expert Installation'
-    }
-  ]
-
-  const locations = [
-    { name: 'Bangalore', icon: MapPin },
-    { name: 'Mysuru', icon: MapPin },
-    { name: 'Hassan', icon: MapPin }
+      highlight: 'Perfect Fit • Multiple Colors • Expert Installation',
+    },
   ]
 
   // Auto-slide functionality
@@ -87,111 +97,251 @@ const Home = () => {
   const CurrentIcon = currentService.icon
 
   return (
-    <div className="home">
-      {/* Branding Section - Moved to Top */}
-      <section className="branding-section">
-        <div className="branding-spotlight" />
-        <motion.div
-          className="branding-content"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="branding-logo">
-            <Logo size="hero" showText={false} />
-          </div>
-
-          <h2 className="branding-title">Cozy Innovations</h2>
-          <p className="branding-tagline">Building Your Dreams Since 2012</p>
-
-          <div className="branding-locations">
-            {locations.map((loc) => (
-              <span key={loc.name} className="branding-location">
-                <loc.icon size={16} />
-                {loc.name}
-              </span>
-            ))}
-          </div>
-        </motion.div>
-      </section>
-
+    <Box>
       {/* Hero Services Carousel */}
-      <section className="hero-carousel">
-        <div className="hero-background">
-          <div className="hero-gradient" />
-        </div>
+      <Box
+        as="section"
+        position="relative"
+        py={{ base: 12, md: 20 }}
+        minH={{ base: 'auto', md: '500px' }}
+      >
+        {/* Background Gradient */}
+        <Box
+          position="absolute"
+          top={0}
+          left="50%"
+          transform="translateX(-50%)"
+          w="100%"
+          h="100%"
+          bgGradient="radial(ellipse at center top, rgba(201, 162, 39, 0.15) 0%, transparent 60%)"
+          pointerEvents="none"
+        />
 
-        <div className="carousel-container">
-          {/* Navigation Arrows */}
-          <button className="carousel-nav carousel-prev" onClick={prevSlide}>
-            <ChevronLeft size={32} />
-          </button>
+        <Container maxW="1200px" position="relative">
+          <Flex align="center" justify="center" gap={{ base: 2, md: 8 }}>
+            {/* Previous Button */}
+            <IconButton
+              icon={<ChevronLeft size={32} />}
+              onClick={prevSlide}
+              variant="ghost"
+              rounded="full"
+              size="lg"
+              color="white"
+              bg="whiteAlpha.100"
+              _hover={{ bg: 'brand.500', color: 'dark.400' }}
+              display={{ base: 'none', md: 'flex' }}
+              aria-label="Previous slide"
+            />
 
-          <div className="carousel-content">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlide}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="service-slide"
+            {/* Carousel Content */}
+            <Box flex={1} maxW="700px" minH={{ base: '350px', md: '300px' }}>
+              <AnimatePresence mode="wait">
+                <MotionVStack
+                  key={currentSlide}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                  spacing={{ base: 4, md: 6 }}
+                  textAlign="center"
+                  py={4}
+                >
+                  <Center
+                    w={{ base: '80px', md: '100px' }}
+                    h={{ base: '80px', md: '100px' }}
+                    rounded="2xl"
+                    bg="whiteAlpha.100"
+                    color="brand.500"
+                  >
+                    <CurrentIcon size={48} />
+                  </Center>
+
+                  <Heading
+                    as="h1"
+                    fontSize={{ base: '2xl', md: '4xl', lg: '5xl' }}
+                    fontWeight={700}
+                    bgGradient="linear(to-r, brand.400, brand.300)"
+                    bgClip="text"
+                  >
+                    {currentService.title}
+                  </Heading>
+
+                  <Text
+                    color="gray.400"
+                    fontSize={{ base: 'md', md: 'lg' }}
+                    maxW="600px"
+                    lineHeight="tall"
+                  >
+                    {currentService.description}
+                  </Text>
+
+                  <Text
+                    color="brand.500"
+                    fontSize={{ base: 'xs', md: 'sm' }}
+                    letterSpacing="wide"
+                    fontWeight={500}
+                  >
+                    {currentService.highlight}
+                  </Text>
+
+                  <Button
+                    as={RouterLink}
+                    to={currentService.link}
+                    variant="primary"
+                    size={{ base: 'md', md: 'lg' }}
+                    rightIcon={<ArrowRight size={18} />}
+                  >
+                    Explore {currentService.title}
+                  </Button>
+                </MotionVStack>
+              </AnimatePresence>
+            </Box>
+
+            {/* Next Button */}
+            <IconButton
+              icon={<ChevronRight size={32} />}
+              onClick={nextSlide}
+              variant="ghost"
+              rounded="full"
+              size="lg"
+              color="white"
+              bg="whiteAlpha.100"
+              _hover={{ bg: 'brand.500', color: 'dark.400' }}
+              display={{ base: 'none', md: 'flex' }}
+              aria-label="Next slide"
+            />
+          </Flex>
+
+          {/* Mobile Navigation */}
+          <HStack justify="center" spacing={4} mt={6} display={{ base: 'flex', md: 'none' }}>
+            <IconButton
+              icon={<ChevronLeft size={24} />}
+              onClick={prevSlide}
+              variant="ghost"
+              rounded="full"
+              color="white"
+              bg="whiteAlpha.100"
+              _hover={{ bg: 'brand.500', color: 'dark.400' }}
+              aria-label="Previous slide"
+            />
+            <IconButton
+              icon={<ChevronRight size={24} />}
+              onClick={nextSlide}
+              variant="ghost"
+              rounded="full"
+              color="white"
+              bg="whiteAlpha.100"
+              _hover={{ bg: 'brand.500', color: 'dark.400' }}
+              aria-label="Next slide"
+            />
+          </HStack>
+
+          {/* Slide Indicators */}
+          <HStack justify="center" spacing={{ base: 2, md: 4 }} mt={{ base: 6, md: 10 }}>
+            {services.map((service, index) => (
+              <Button
+                key={index}
+                onClick={() => goToSlide(index)}
+                variant="ghost"
+                size="sm"
+                px={{ base: 2, md: 4 }}
+                py={2}
+                h="auto"
+                color={index === currentSlide ? 'brand.500' : 'gray.500'}
+                bg={index === currentSlide ? 'whiteAlpha.100' : 'transparent'}
+                borderBottom="2px solid"
+                borderColor={index === currentSlide ? 'brand.500' : 'transparent'}
+                rounded="none"
+                _hover={{ color: 'brand.500' }}
+                aria-label={`Go to ${service.title}`}
               >
-                <div className="slide-icon">
-                  <CurrentIcon size={64} />
-                </div>
-                <h1 className="slide-title">{currentService.title}</h1>
-                <p className="slide-description">{currentService.description}</p>
-                <p className="slide-highlight">{currentService.highlight}</p>
-                <Link to={currentService.link} className="btn slide-cta">
-                  Explore {currentService.title} <ArrowRight size={18} />
-                </Link>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <button className="carousel-nav carousel-next" onClick={nextSlide}>
-            <ChevronRight size={32} />
-          </button>
-        </div>
-
-        {/* Slide Indicators */}
-        <div className="carousel-indicators">
-          {services.map((service, index) => (
-            <button
-              key={index}
-              className={`indicator ${index === currentSlide ? 'active' : ''}`}
-              onClick={() => goToSlide(index)}
-              aria-label={`Go to ${service.title}`}
-            >
-              <service.icon size={20} />
-              <span className="indicator-label">{service.title}</span>
-            </button>
-          ))}
-        </div>
-      </section>
+                <HStack spacing={2}>
+                  <service.icon size={18} />
+                  <Text
+                    display={{ base: 'none', md: 'block' }}
+                    fontSize="sm"
+                    fontWeight={index === currentSlide ? 600 : 400}
+                  >
+                    {service.title}
+                  </Text>
+                </HStack>
+              </Button>
+            ))}
+          </HStack>
+        </Container>
+      </Box>
 
       {/* CTA Section */}
-      <section className="cta section">
-        <div className="cta-glow" />
-        <div className="container">
-          <AnimatedSection>
-            <div className="cta-content">
-              <h2>Ready to Start Your Project?</h2>
-              <p>Get a free consultation and quote from our experts</p>
-              <div className="cta-buttons">
-                <Link to="/contact" className="btn">
-                  Get In Touch <ArrowRight size={18} />
-                </Link>
-                <a href="tel:+919071234091" className="btn btn-secondary">
-                  <Phone size={18} /> +91 90712 34091
-                </a>
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-    </div>
+      <Box
+        as="section"
+        position="relative"
+        py={{ base: 12, md: 16 }}
+        overflow="hidden"
+      >
+        {/* Glow Effect */}
+        <Box
+          position="absolute"
+          top="50%"
+          left="50%"
+          transform="translate(-50%, -50%)"
+          w="100%"
+          h="100%"
+          bgGradient="radial(ellipse at center, rgba(201, 162, 39, 0.1) 0%, transparent 60%)"
+          pointerEvents="none"
+        />
+
+        <Container maxW="800px" position="relative">
+          <MotionBox
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <VStack spacing={{ base: 4, md: 6 }} textAlign="center">
+              <Heading
+                as="h2"
+                fontSize={{ base: '2xl', md: '4xl' }}
+                fontWeight={700}
+              >
+                Ready to Start Your Project?
+              </Heading>
+
+              <Text color="gray.400" fontSize={{ base: 'md', md: 'lg' }}>
+                Get a free consultation and quote from our experts
+              </Text>
+
+              <Flex
+                direction={{ base: 'column', sm: 'row' }}
+                gap={4}
+                pt={4}
+                w={{ base: 'full', sm: 'auto' }}
+              >
+                <Button
+                  as={RouterLink}
+                  to="/contact"
+                  variant="primary"
+                  size="lg"
+                  rightIcon={<ArrowRight size={18} />}
+                  w={{ base: 'full', sm: 'auto' }}
+                >
+                  Get In Touch
+                </Button>
+                <Button
+                  as={Link}
+                  href="tel:+919071234091"
+                  variant="secondary"
+                  size="lg"
+                  leftIcon={<Phone size={18} />}
+                  w={{ base: 'full', sm: 'auto' }}
+                >
+                  +91 90712 34091
+                </Button>
+              </Flex>
+            </VStack>
+          </MotionBox>
+        </Container>
+      </Box>
+    </Box>
   )
 }
 

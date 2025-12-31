@@ -2,7 +2,8 @@
 // Returns array of image objects with src and display name
 
 const getBasePath = () => {
-  return import.meta.env.BASE_URL || '/cozy-innovations/'
+  // In dev mode, BASE_URL is '/', in production it's '/cozy-innovations/'
+  return import.meta.env.BASE_URL || '/'
 }
 
 // Clean up file names for display
@@ -83,9 +84,10 @@ const getCategoryImages = (category) => {
         'download (2).jpeg',
         'download (4).jpeg',
         'Car seat red.jpeg',
-        'Diamond Stitch Leather Seats – Ultimate Luxury Touch _ Exotic Car Interiors.jpeg',
+        'Diamond Stitch Leather Seats - Ultimate Luxury Touch _ Exotic Car Interiors.jpeg',
         'Custom Fit Full Set Car Seat Covers for Select Toyota RAV4 Limited XLE SE Platinum Adventure.jpeg',
-        'Car decorations for stunning interiors 16 ideas.jpeg'
+        'Car decorations for stunning interiors 16 ideas.jpeg',
+        'Jump in_ #LexusRC.jpeg'
       ]
     },
     'leather-furniture': {
