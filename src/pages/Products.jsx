@@ -1,14 +1,9 @@
 import { Link } from 'react-router-dom'
 import {
-  Armchair,
   Sofa,
   Car,
-  Tv,
   Building2,
-  Hammer,
   PaintBucket,
-  Layers,
-  GlassWater,
   ArrowRight
 } from 'lucide-react'
 import AnimatedSection, { StaggerContainer, StaggerItem } from '../components/AnimatedSection'
@@ -17,40 +12,10 @@ import './Products.css'
 const Products = () => {
   const categories = [
     {
-      id: 'recliner',
-      name: 'Recliner',
-      description: 'Comfortable and stylish recliners for your home',
-      icon: Armchair
-    },
-    {
-      id: 'sofa',
-      name: 'Customized Sofa',
-      description: 'Custom sofas designed to fit your space and style',
-      icon: Sofa
-    },
-    {
-      id: 'car-seats',
-      name: 'Car Seats',
-      description: 'Premium car seat covers and upholstery',
-      icon: Car
-    },
-    {
-      id: 'home-theater',
-      name: 'Home Theater',
-      description: 'Complete home theater solutions',
-      icon: Tv
-    },
-    {
       id: 'construction',
       name: 'Construction',
       description: 'Professional construction services',
       icon: Building2
-    },
-    {
-      id: 'renovation',
-      name: 'Renovation',
-      description: 'Home and office renovation services',
-      icon: Hammer
     },
     {
       id: 'interior',
@@ -59,16 +24,16 @@ const Products = () => {
       icon: PaintBucket
     },
     {
-      id: 'acp',
-      name: 'ACP, Fundermax',
-      description: 'ACP and Fundermax installation services',
-      icon: Layers
+      id: 'custom-furniture',
+      name: 'Custom Furniture',
+      description: 'Recliners, sofas, and custom furniture tailored to your needs',
+      icon: Sofa
     },
     {
-      id: 'glazing',
-      name: 'Glazing',
-      description: 'Professional glazing services',
-      icon: GlassWater
+      id: 'automotive',
+      name: 'Automotive',
+      description: 'Premium car seat covers and upholstery',
+      icon: Car
     }
   ]
 

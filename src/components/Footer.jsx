@@ -8,18 +8,15 @@ const Footer = () => {
 
   const quickLinks = [
     { to: '/', label: 'Home' },
-    { to: '/products', label: 'Products' },
-    { to: '/galleries', label: 'Galleries' },
+    { to: '/galleries', label: 'Our Work' },
     { to: '/contact', label: 'Contact Us' }
   ]
 
   const services = [
     { to: '/products/construction', label: 'Construction' },
-    { to: '/products/renovation', label: 'Renovation' },
     { to: '/products/interior', label: 'Interior Designing' },
-    { to: '/products/recliner', label: 'Recliner' },
-    { to: '/products/sofa', label: 'Customized Sofa' },
-    { to: '/products/car-seats', label: 'Car Seats' }
+    { to: '/products/custom-furniture', label: 'Custom Furniture' },
+    { to: '/products/automotive', label: 'Automotive' }
   ]
 
   const locations = ['Bangalore', 'Mysuru', 'Hassan']

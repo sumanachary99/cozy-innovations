@@ -38,19 +38,11 @@ const Navbar = () => {
     return location.pathname === path ? 'active' : ''
   }
 
-  const products = [
-    { path: '/products/recliner', label: 'Recliner' },
-    { path: '/products/sofa', label: 'Customized Sofa' },
-    { path: '/products/car-seats', label: 'Car Seats' },
-    { path: '/products/home-theater', label: 'Home Theater' }
-  ]
-
-  const services = [
+  const categories = [
     { path: '/products/construction', label: 'Construction' },
-    { path: '/products/renovation', label: 'Renovation' },
     { path: '/products/interior', label: 'Interior Designing' },
-    { path: '/products/acp', label: 'ACP, Fundermax' },
-    { path: '/products/glazing', label: 'Glazing' }
+    { path: '/products/custom-furniture', label: 'Custom Furniture' },
+    { path: '/products/automotive', label: 'Automotive' }
   ]
 
   return (
@@ -77,38 +69,18 @@ const Navbar = () => {
             </li>
 
             <li
-              className={`dropdown ${activeDropdown === 'products' ? 'active' : ''}`}
-              onMouseEnter={() => !isMenuOpen && setActiveDropdown('products')}
-              onMouseLeave={() => !isMenuOpen && setActiveDropdown(null)}
-            >
-              <button
-                className={`dropdown-trigger ${location.pathname.startsWith('/products') && !location.pathname.includes('construction') && !location.pathname.includes('renovation') && !location.pathname.includes('interior') && !location.pathname.includes('acp') && !location.pathname.includes('glazing') ? 'active' : ''}`}
-                onClick={() => handleDropdownToggle('products')}
-              >
-                Products <ChevronDown size={16} />
-              </button>
-              <ul className="dropdown-menu">
-                {products.map((item) => (
-                  <li key={item.path}>
-                    <Link to={item.path}>{item.label}</Link>
-                  </li>
-                ))}
-              </ul>
-            </li>
-
-            <li
               className={`dropdown ${activeDropdown === 'services' ? 'active' : ''}`}
               onMouseEnter={() => !isMenuOpen && setActiveDropdown('services')}
               onMouseLeave={() => !isMenuOpen && setActiveDropdown(null)}
             >
               <button
-                className={`dropdown-trigger ${location.pathname.includes('construction') || location.pathname.includes('renovation') || location.pathname.includes('interior') || location.pathname.includes('acp') || location.pathname.includes('glazing') ? 'active' : ''}`}
+                className={`dropdown-trigger ${location.pathname.startsWith('/products') ? 'active' : ''}`}
                 onClick={() => handleDropdownToggle('services')}
               >
                 Services <ChevronDown size={16} />
               </button>
               <ul className="dropdown-menu">
-                {services.map((item) => (
+                {categories.map((item) => (
                   <li key={item.path}>
                     <Link to={item.path}>{item.label}</Link>
                   </li>
@@ -118,7 +90,7 @@ const Navbar = () => {
 
             <li>
               <Link to="/galleries" className={isActive('/galleries')}>
-                Galleries
+                Our Work
               </Link>
             </li>
 

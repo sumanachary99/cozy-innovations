@@ -1,61 +1,35 @@
 import { useParams, Link } from 'react-router-dom'
+import { useState, useMemo } from 'react'
 import {
   ArrowLeft,
   Check,
   Phone,
   ArrowRight,
-  Armchair,
   Sofa,
   Car,
-  Tv,
   Building2,
-  Hammer,
   PaintBucket,
-  Layers,
-  GlassWater
+  Armchair,
+  X,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react'
 import AnimatedSection, { StaggerContainer, StaggerItem } from '../components/AnimatedSection'
+import getCategoryImages from '../utils/imageLoader'
 import './ProductCategory.css'
 
 const ProductCategory = () => {
   const { category } = useParams()
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [activeSubcategory, setActiveSubcategory] = useState('all')
 
   const categoryData = {
-    recliner: {
-      name: 'Recliner',
-      icon: Armchair,
-      description: 'Experience ultimate comfort with our premium recliner collection. Each piece is crafted with attention to detail and designed for relaxation.',
-      features: ['Ergonomic Design', 'Premium Materials', 'Multiple Styles', 'Custom Options', 'Motorized Options', 'Warranty Included']
-    },
-    sofa: {
-      name: 'Customized Sofa',
-      icon: Sofa,
-      description: 'Transform your living space with our custom sofa solutions. Designed to fit your space perfectly and match your style.',
-      features: ['Custom Sizing', 'Fabric Selection', 'Modular Options', 'Expert Design', 'Color Matching', 'Premium Upholstery']
-    },
-    'car-seats': {
-      name: 'Car Seats',
-      icon: Car,
-      description: 'Premium car seat covers and upholstery services. Protect and enhance your vehicle\'s interior with our quality solutions.',
-      features: ['Premium Materials', 'Perfect Fit', 'Easy Installation', 'Multiple Colors', 'Leather Options', 'Custom Designs']
-    },
-    'home-theater': {
-      name: 'Home Theater',
-      icon: Tv,
-      description: 'Create the ultimate entertainment experience with our home theater design and installation services.',
-      features: ['Acoustic Design', 'Premium Equipment', 'Custom Installation', 'Sound Optimization', '4K/8K Support', 'Smart Integration']
-    },
     construction: {
       name: 'Construction',
       icon: Building2,
       description: 'Professional construction services for residential and commercial projects. Quality workmanship guaranteed.',
       features: ['Expert Team', 'Quality Materials', 'Timely Completion', 'Project Management', 'Permits Handling', 'Safety Compliance']
-    },
-    renovation: {
-      name: 'Renovation',
-      icon: Hammer,
-      description: 'Complete renovation solutions for homes and offices. Transform your space with our expert renovation services.',
-      features: ['Design Consultation', 'Quality Workmanship', 'Material Selection', 'Project Coordination', 'Budget Planning', 'Timeline Management']
     },
     interior: {
       name: 'Interior Designing',
@@ -63,17 +37,21 @@ const ProductCategory = () => {
       description: 'Expert interior design solutions to transform your spaces. From concept to completion, we bring your vision to life.',
       features: ['3D Visualization', 'Space Planning', 'Color Consultation', 'Complete Execution', 'Furniture Selection', 'Lighting Design']
     },
-    acp: {
-      name: 'ACP, Fundermax',
-      icon: Layers,
-      description: 'Professional ACP and Fundermax installation services. Durable and aesthetic solutions for modern buildings.',
-      features: ['Quality Materials', 'Expert Installation', 'Weather Resistant', 'Multiple Finishes', 'Fire Resistant', 'Low Maintenance']
+    'custom-furniture': {
+      name: 'Custom Furniture',
+      icon: Sofa,
+      description: 'Transform your living space with our custom furniture solutions. Recliners, sofas, and more designed to fit your space perfectly.',
+      features: ['Custom Sizing', 'Fabric Selection', 'Leather Options', 'Modular Options', 'Expert Design', 'Premium Upholstery'],
+      subcategories: [
+        { id: 'leather-furniture', name: 'Leather Furniture', icon: Armchair, description: 'Premium leather recliners, armchairs, and accent pieces' },
+        { id: 'modern-sofa', name: 'Modern Sofas', icon: Sofa, description: 'Contemporary sofas and sectionals for modern living' }
+      ]
     },
-    glazing: {
-      name: 'Glazing',
-      icon: GlassWater,
-      description: 'Professional glazing services for windows, doors, and facades. Energy-efficient and aesthetic solutions.',
-      features: ['Energy Efficient', 'Safety Glass', 'Custom Sizing', 'Professional Installation', 'UV Protection', 'Noise Reduction']
+    automotive: {
+      name: 'Automotive',
+      icon: Car,
+      description: 'Premium car seat covers and upholstery services. Protect and enhance your vehicle\'s interior with our quality solutions.',
+      features: ['Premium Materials', 'Perfect Fit', 'Easy Installation', 'Multiple Colors', 'Leather Options', 'Custom Designs']
     }
   }
 
@@ -86,14 +64,54 @@ const ProductCategory = () => {
 
   const Icon = data.icon
 
+  // Get images using useMemo to prevent recalculation on every render
+  const allImages = useMemo(() => {
+    if (category) {
+      return getCategoryImages(category)
+    }
+    return []
+  }, [category])
+
+  // Filter images based on active subcategory
+  const images = useMemo(() => {
+    if (activeSubcategory === 'all') {
+      return allImages
+    }
+    const subcatName = activeSubcategory === 'leather-furniture' ? 'Leather Furniture' : 'Modern Sofa'
+    return allImages.filter(img => img.subcategory === subcatName)
+  }, [allImages, activeSubcategory])
+
+  const openLightbox = (index) => {
+    setCurrentIndex(index)
+    setSelectedImage(images[index])
+  }
+
+  const closeLightbox = () => {
+    setSelectedImage(null)
+  }
+
+  const nextImage = (e) => {
+    e.stopPropagation()
+    const newIndex = (currentIndex + 1) % images.length
+    setCurrentIndex(newIndex)
+    setSelectedImage(images[newIndex])
+  }
+
+  const prevImage = (e) => {
+    e.stopPropagation()
+    const newIndex = (currentIndex - 1 + images.length) % images.length
+    setCurrentIndex(newIndex)
+    setSelectedImage(images[newIndex])
+  }
+
   return (
     <div className="product-category-page">
       <section className="category-header">
         <div className="category-header-glow" />
         <div className="container">
           <AnimatedSection>
-            <Link to="/products" className="back-link">
-              <ArrowLeft size={18} /> Back to Products
+            <Link to="/" className="back-link">
+              <ArrowLeft size={18} /> Back to Home
             </Link>
             <div className="category-header-content">
               <div className="category-icon-large">
@@ -105,6 +123,43 @@ const ProductCategory = () => {
           </AnimatedSection>
         </div>
       </section>
+
+      {/* Subcategory Cards for Custom Furniture */}
+      {data.subcategories && (
+        <section className="subcategories-section section">
+          <div className="container">
+            <AnimatedSection>
+              <h2 className="section-title">Choose a Category</h2>
+            </AnimatedSection>
+            <div className="subcategories-grid">
+              {data.subcategories.map((subcat) => {
+                const SubIcon = subcat.icon
+                return (
+                  <div
+                    key={subcat.id}
+                    className={`subcategory-card ${activeSubcategory === subcat.id ? 'active' : ''}`}
+                    onClick={() => setActiveSubcategory(activeSubcategory === subcat.id ? 'all' : subcat.id)}
+                  >
+                    <div className="subcategory-icon">
+                      <SubIcon size={40} />
+                    </div>
+                    <h3>{subcat.name}</h3>
+                    <p>{subcat.description}</p>
+                    <span className="subcategory-count">
+                      {allImages.filter(img => img.subcategory === (subcat.id === 'leather-furniture' ? 'Leather Furniture' : 'Modern Sofa')).length} images
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+            {activeSubcategory !== 'all' && (
+              <button className="show-all-btn" onClick={() => setActiveSubcategory('all')}>
+                Show All Furniture
+              </button>
+            )}
+          </div>
+        </section>
+      )}
 
       <section className="category-content section">
         <div className="container">
@@ -124,14 +179,38 @@ const ProductCategory = () => {
             </AnimatedSection>
 
             <AnimatedSection className="category-gallery" delay={0.2}>
-              <h2>Gallery</h2>
-              <div className="gallery-placeholder">
-                <div className="gallery-icon">
-                  <Icon size={48} />
+              <h2>Gallery ({images.length} images)</h2>
+              {images.length > 0 ? (
+                <div className="category-images-grid">
+                  {images.map((image, index) => (
+                    <div
+                      key={index}
+                      className="category-image-item"
+                      onClick={() => openLightbox(index)}
+                    >
+                      <img
+                        src={image.src}
+                        alt={image.name}
+                        loading="lazy"
+                        onError={(e) => {
+                          console.error('Image failed to load:', image.src)
+                          e.target.parentElement.style.display = 'none'
+                        }}
+                      />
+                      {image.subcategory && (
+                        <span className="image-tag">{image.subcategory}</span>
+                      )}
+                    </div>
+                  ))}
                 </div>
-                <p>Images will be displayed here</p>
-                <p className="gallery-note">Add your product images to showcase your work</p>
-              </div>
+              ) : (
+                <div className="gallery-placeholder">
+                  <div className="gallery-icon">
+                    <Icon size={48} />
+                  </div>
+                  <p>Images coming soon</p>
+                </div>
+              )}
             </AnimatedSection>
           </div>
 
@@ -151,6 +230,28 @@ const ProductCategory = () => {
           </AnimatedSection>
         </div>
       </section>
+
+      {/* Lightbox */}
+      {selectedImage && (
+        <div className="lightbox" onClick={closeLightbox}>
+          <button className="lightbox-close" onClick={closeLightbox}>
+            <X size={32} />
+          </button>
+          <button className="lightbox-nav lightbox-prev" onClick={prevImage}>
+            <ChevronLeft size={40} />
+          </button>
+          <div className="lightbox-content" onClick={e => e.stopPropagation()}>
+            <img src={selectedImage.src} alt={selectedImage.name} />
+            <p className="lightbox-caption">{selectedImage.name}</p>
+          </div>
+          <button className="lightbox-nav lightbox-next" onClick={nextImage}>
+            <ChevronRight size={40} />
+          </button>
+          <div className="lightbox-counter">
+            {currentIndex + 1} / {images.length}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

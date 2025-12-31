@@ -1,57 +1,53 @@
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { useState, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   Building2,
   Sofa,
-  Hammer,
   Car,
-  Tv,
   PaintBucket,
   MapPin,
   ArrowRight,
-  Phone
+  Phone,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react'
-import AnimatedSection, { StaggerContainer, StaggerItem } from '../components/AnimatedSection'
+import AnimatedSection from '../components/AnimatedSection'
 import Logo from '../components/Logo'
 import './Home.css'
 
 const Home = () => {
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+
   const services = [
     {
       icon: Building2,
       title: 'Construction',
-      description: 'Professional construction services for your dream projects',
-      link: '/products/construction'
+      description: 'Professional construction services for residential and commercial projects. Quality workmanship guaranteed.',
+      link: '/products/construction',
+      highlight: 'Expert Team • Quality Materials • Timely Delivery'
     },
     {
       icon: PaintBucket,
       title: 'Interior Designing',
-      description: 'Transform your spaces with our expert interior design solutions',
-      link: '/products/interior'
+      description: 'Transform your spaces with our expert interior design solutions. From concept to completion.',
+      link: '/products/interior',
+      highlight: '3D Visualization • Space Planning • Complete Execution'
     },
     {
       icon: Sofa,
-      title: 'Customized Furniture',
-      description: 'Recliners, sofas, and custom furniture tailored to your needs',
-      link: '/products/recliner'
+      title: 'Custom Furniture',
+      description: 'Recliners, sofas, and custom furniture crafted to perfection. Designed to fit your space.',
+      link: '/products/custom-furniture',
+      highlight: 'Premium Materials • Custom Sizing • Leather Options'
     },
     {
       icon: Car,
-      title: 'Car Seats',
-      description: 'Premium car seat covers and upholstery services',
-      link: '/products/car-seats'
-    },
-    {
-      icon: Hammer,
-      title: 'Renovation',
-      description: 'Complete renovation solutions for homes and offices',
-      link: '/products/renovation'
-    },
-    {
-      icon: Tv,
-      title: 'Home Theater',
-      description: 'Design and installation of premium home theater systems',
-      link: '/products/home-theater'
+      title: 'Automotive',
+      description: 'Premium car seat covers and upholstery services. Protect and enhance your vehicle interior.',
+      link: '/products/automotive',
+      highlight: 'Perfect Fit • Multiple Colors • Expert Installation'
     }
   ]
 
@@ -61,135 +57,117 @@ const Home = () => {
     { name: 'Hassan', icon: MapPin }
   ]
 
+  // Auto-slide functionality
+  useEffect(() => {
+    if (!isAutoPlaying) return
+
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % services.length)
+    }, 4000)
+
+    return () => clearInterval(interval)
+  }, [isAutoPlaying, services.length])
+
+  const nextSlide = useCallback(() => {
+    setIsAutoPlaying(false)
+    setCurrentSlide((prev) => (prev + 1) % services.length)
+  }, [services.length])
+
+  const prevSlide = useCallback(() => {
+    setIsAutoPlaying(false)
+    setCurrentSlide((prev) => (prev - 1 + services.length) % services.length)
+  }, [services.length])
+
+  const goToSlide = (index) => {
+    setIsAutoPlaying(false)
+    setCurrentSlide(index)
+  }
+
+  const currentService = services[currentSlide]
+  const CurrentIcon = currentService.icon
+
   return (
     <div className="home">
-      {/* Hero Section */}
-      <section className="hero">
-        <div className="hero-spotlight" />
-        <div className="hero-lamp">
-          <div className="lamp-shade" />
-          <div className="lamp-cord" />
-          <div className="lamp-light" />
-        </div>
-
+      {/* Branding Section - Moved to Top */}
+      <section className="branding-section">
+        <div className="branding-spotlight" />
         <motion.div
-          className="hero-content"
+          className="branding-content"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 0.8 }}
         >
-          <div className="hero-logo">
+          <div className="branding-logo">
             <Logo size="hero" showText={false} />
           </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-          >
-            Cozy Innovations
-          </motion.h1>
+          <h2 className="branding-title">Cozy Innovations</h2>
+          <p className="branding-tagline">Building Your Dreams Since 2012</p>
 
-          <motion.p
-            className="hero-tagline"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-          >
-            Building Your Dreams
-          </motion.p>
-
-          <motion.p
-            className="hero-subtitle"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-          >
-            Since 2012
-          </motion.p>
-
-          <motion.p
-            className="hero-description"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-          >
-            Architectural Bespoke Turnkey | Construction | Interior | Furniture | Cars
-          </motion.p>
-
-          <motion.div
-            className="hero-buttons"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.6 }}
-          >
-            <Link to="/products" className="btn">
-              Explore Products <ArrowRight size={18} />
-            </Link>
-            <Link to="/contact" className="btn btn-outline">
-              Get Quote
-            </Link>
-          </motion.div>
-
-          <motion.div
-            className="hero-locations"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9, duration: 0.6 }}
-          >
-            {locations.map((loc, index) => (
-              <span key={loc.name} className="hero-location">
+          <div className="branding-locations">
+            {locations.map((loc) => (
+              <span key={loc.name} className="branding-location">
+                <loc.icon size={16} />
                 {loc.name}
-                {index < locations.length - 1 && <span className="location-divider">|</span>}
               </span>
             ))}
-          </motion.div>
+          </div>
         </motion.div>
       </section>
 
-      {/* Services Section */}
-      <section className="services-overview section">
-        <div className="container">
-          <AnimatedSection>
-            <h2 className="section-title">Our Services</h2>
-          </AnimatedSection>
-
-          <StaggerContainer className="services-grid" staggerDelay={0.1}>
-            {services.map((service) => (
-              <StaggerItem key={service.title}>
-                <div className="service-card">
-                  <div className="service-icon-wrapper">
-                    <service.icon size={32} />
-                  </div>
-                  <h3>{service.title}</h3>
-                  <p>{service.description}</p>
-                  <Link to={service.link} className="service-link">
-                    Learn More <ArrowRight size={16} />
-                  </Link>
-                </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
+      {/* Hero Services Carousel */}
+      <section className="hero-carousel">
+        <div className="hero-background">
+          <div className="hero-gradient" />
         </div>
-      </section>
 
-      {/* Locations Section */}
-      <section className="locations section">
-        <div className="container">
-          <AnimatedSection>
-            <h2 className="section-title">Services Available At</h2>
-          </AnimatedSection>
+        <div className="carousel-container">
+          {/* Navigation Arrows */}
+          <button className="carousel-nav carousel-prev" onClick={prevSlide}>
+            <ChevronLeft size={32} />
+          </button>
 
-          <StaggerContainer className="locations-grid" staggerDelay={0.15}>
-            {locations.map((location) => (
-              <StaggerItem key={location.name}>
-                <div className="location-card">
-                  <location.icon size={32} className="location-icon" />
-                  <h3>{location.name}</h3>
+          <div className="carousel-content">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlide}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.5 }}
+                className="service-slide"
+              >
+                <div className="slide-icon">
+                  <CurrentIcon size={64} />
                 </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
+                <h1 className="slide-title">{currentService.title}</h1>
+                <p className="slide-description">{currentService.description}</p>
+                <p className="slide-highlight">{currentService.highlight}</p>
+                <Link to={currentService.link} className="btn slide-cta">
+                  Explore {currentService.title} <ArrowRight size={18} />
+                </Link>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <button className="carousel-nav carousel-next" onClick={nextSlide}>
+            <ChevronRight size={32} />
+          </button>
+        </div>
+
+        {/* Slide Indicators */}
+        <div className="carousel-indicators">
+          {services.map((service, index) => (
+            <button
+              key={index}
+              className={`indicator ${index === currentSlide ? 'active' : ''}`}
+              onClick={() => goToSlide(index)}
+              aria-label={`Go to ${service.title}`}
+            >
+              <service.icon size={20} />
+              <span className="indicator-label">{service.title}</span>
+            </button>
+          ))}
         </div>
       </section>
 
@@ -199,8 +177,8 @@ const Home = () => {
         <div className="container">
           <AnimatedSection>
             <div className="cta-content">
-              <h2>Ready to Build Your Dream?</h2>
-              <p>Contact us today for a free consultation and quote</p>
+              <h2>Ready to Start Your Project?</h2>
+              <p>Get a free consultation and quote from our experts</p>
               <div className="cta-buttons">
                 <Link to="/contact" className="btn">
                   Get In Touch <ArrowRight size={18} />
