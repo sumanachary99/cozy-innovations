@@ -11,45 +11,15 @@ const Logo = ({ size = 'default', showText = true, className = '' }) => {
   return (
     <div className={`logo-component ${className}`} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
       <div className="logo-icon" style={{ width: currentSize.icon, height: currentSize.icon }}>
-        <svg
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ width: '100%', height: '100%' }}
-        >
-          {/* Deer Body - Leaping pose */}
-          <g fill="currentColor">
-            {/* Antlers */}
-            <path d="M35 25 Q30 15 25 8 Q28 12 32 15 Q30 10 28 5 Q32 10 35 15 Q33 8 32 2 Q36 10 38 18" />
-            <path d="M45 25 Q50 15 55 8 Q52 12 48 15 Q50 10 52 5 Q48 10 45 15 Q47 8 48 2 Q44 10 42 18" />
-
-            {/* Head */}
-            <ellipse cx="40" cy="32" rx="8" ry="10" />
-
-            {/* Ear */}
-            <path d="M32 24 Q28 20 30 16 Q34 20 34 26" />
-            <path d="M48 24 Q52 20 50 16 Q46 20 46 26" />
-
-            {/* Eye */}
-            <circle cx="37" cy="30" r="1.5" fill="var(--bg-primary, #0a0a0a)" />
-
-            {/* Neck */}
-            <path d="M44 40 Q55 45 60 50 L58 55 Q50 50 42 45 Z" />
-
-            {/* Body */}
-            <ellipse cx="70" cy="58" rx="22" ry="14" />
-
-            {/* Front legs (leaping) */}
-            <path d="M52 60 Q48 70 42 78 Q40 82 38 85 L40 86 Q44 82 46 78 Q50 72 54 65" />
-            <path d="M58 62 Q56 72 52 80 Q50 84 48 88 L50 89 Q54 84 56 80 Q60 72 60 65" />
-
-            {/* Back legs (extended) */}
-            <path d="M82 65 Q88 72 92 80 Q94 85 96 90 L94 91 Q92 86 90 82 Q86 74 80 68" />
-            <path d="M78 68 Q82 76 84 84 Q85 88 86 92 L84 93 Q83 88 82 84 Q80 76 76 70" />
-
-            {/* Tail */}
-            <path d="M90 52 Q95 48 98 50 Q96 54 92 56" />
-          </g>
-        </svg>
+        <img
+          src={`${import.meta.env.BASE_URL}images/logo/logo2.png`}
+          alt="Cozy Innovations Logo"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain'
+          }}
+        />
       </div>
       {showText && (
         <div className="logo-text" style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.2 }}>
