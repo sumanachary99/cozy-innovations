@@ -54,7 +54,7 @@ const Galleries = () => {
     },
     {
       id: 3,
-      title: 'Custom Furniture',
+      title: 'Architectural Bespoke Turnkey',
       category: 'custom-furniture',
       icon: Sofa,
       description: 'Custom sofas, recliners, and furniture pieces',

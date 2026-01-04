@@ -49,7 +49,7 @@ const Navbar = () => {
   const categories = [
     { path: '/products/construction', label: 'Construction' },
     { path: '/products/interior', label: 'Interior Designing' },
-    { path: '/products/custom-furniture', label: 'Custom Furniture' },
+    { path: '/products/custom-furniture', label: 'Architectural Bespoke Turnkey' },
     { path: '/products/automotive', label: 'Automotive' },
   ]
 

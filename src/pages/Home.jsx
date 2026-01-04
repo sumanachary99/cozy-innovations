@@ -35,15 +35,6 @@ const Home = () => {
 
   const services = [
     {
-      icon: Building2,
-      image: '/images/construction/Elevation.jpeg',
-      title: 'Construction',
-      description:
-        'Professional construction services for residential and commercial projects. Quality workmanship guaranteed.',
-      link: '/products/construction',
-      highlight: 'Expert Team • Quality Materials • Timely Delivery',
-    },
-    {
       icon: PaintBucket,
       image: '/images/interior/Modern Bedroom Looks You Can Recreate.jpeg',
       title: 'Interior Designing',
@@ -55,11 +46,20 @@ const Home = () => {
     {
       icon: Sofa,
       image: '/images/custom-furniture/leather-furniture/A Welcoming and Inviting Chair.jpeg',
-      title: 'Custom Furniture',
+      title: 'Architectural Bespoke Turnkey',
       description:
-        'Recliners, sofas, and custom furniture crafted to perfection. Designed to fit your space.',
+        'Architectural bespoke turnkey solutions. Recliners, sofas, and custom furniture crafted to perfection. Designed to fit your space.',
       link: '/products/custom-furniture',
       highlight: 'Premium Materials • Custom Sizing • Leather Options',
+    },
+    {
+      icon: Building2,
+      image: '/images/construction/Elevation.jpeg',
+      title: 'Construction',
+      description:
+        'Professional construction services for residential and commercial projects. Quality workmanship guaranteed.',
+      link: '/products/construction',
+      highlight: 'Expert Team • Quality Materials • Timely Delivery',
     },
     {
       icon: Car,
@@ -152,8 +152,8 @@ const Home = () => {
                   py={4}
                 >
                   <Center
-                    w={{ base: '120px', md: '150px' }}
-                    h={{ base: '120px', md: '150px' }}
+                    w={{ base: '180px', md: '220px' }}
+                    h={{ base: '180px', md: '220px' }}
                     rounded="2xl"
                     bg="whiteAlpha.100"
                     overflow="hidden"

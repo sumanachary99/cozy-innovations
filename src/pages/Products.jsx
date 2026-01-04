@@ -10,6 +10,7 @@ import {
   Link,
   Center,
   HStack,
+  Image,
 } from '@chakra-ui/react'
 import {
   Sofa,
@@ -28,24 +29,28 @@ const Products = () => {
       name: 'Construction',
       description: 'Professional construction services',
       icon: Building2,
+      image: '/images/construction/Elevation.jpeg',
     },
     {
       id: 'interior',
       name: 'Interior Designing',
       description: 'Expert interior design solutions',
       icon: PaintBucket,
+      image: '/images/interior/Modern Bedroom Looks You Can Recreate.jpeg',
     },
     {
       id: 'custom-furniture',
-      name: 'Custom Furniture',
-      description: 'Recliners, sofas, and custom furniture tailored to your needs',
+      name: 'Architectural Bespoke Turnkey',
+      description: 'Architectural bespoke turnkey solutions. Recliners, sofas, and custom furniture tailored to your needs',
       icon: Sofa,
+      image: '/images/custom-furniture/leather-furniture/A Welcoming and Inviting Chair.jpeg',
     },
     {
       id: 'automotive',
       name: 'Automotive',
       description: 'Premium car seat covers and upholstery',
       icon: Car,
+      image: '/images/automotive/Car seat red.jpeg',
     },
   ]
 
@@ -147,18 +152,28 @@ const Products = () => {
                   >
                     <VStack spacing={4} align="center" textAlign="center">
                       <Center
-                        w="70px"
-                        h="70px"
+                        w="150px"
+                        h="150px"
                         rounded="xl"
                         bg="whiteAlpha.100"
-                        color="brand.500"
+                        overflow="hidden"
+                        border="2px solid"
+                        borderColor="brand.500"
+                        boxShadow="md"
                         transition="all 0.3s"
                         _groupHover={{
-                          bg: 'brand.500',
-                          color: 'dark.400',
+                          borderColor: 'brand.600',
+                          transform: 'scale(1.05)',
                         }}
                       >
-                        <category.icon size={32} />
+                        <Image
+                          src={category.image || '/images/logo/logo_2-removebg-preview.png'}
+                          alt={category.name}
+                          w="100%"
+                          h="100%"
+                          objectFit="cover"
+                          fallbackSrc="/images/logo/logo_2-removebg-preview.png"
+                        />
                       </Center>
 
                       <Heading as="h3" size="md" color="white">

@@ -48,6 +48,7 @@ const ProductCategory = () => {
     construction: {
       name: 'Construction',
       icon: Building2,
+      image: '/images/construction/Elevation.jpeg',
       description:
         'Professional construction services for residential and commercial projects. Quality workmanship guaranteed.',
       features: [
@@ -62,6 +63,7 @@ const ProductCategory = () => {
     interior: {
       name: 'Interior Designing',
       icon: PaintBucket,
+      image: '/images/interior/Modern Bedroom Looks You Can Recreate.jpeg',
       description:
         'Expert interior design solutions to transform your spaces. From concept to completion, we bring your vision to life.',
       features: [
@@ -74,10 +76,11 @@ const ProductCategory = () => {
       ],
     },
     'custom-furniture': {
-      name: 'Custom Furniture',
+      name: 'Architectural Bespoke Turnkey',
       icon: Sofa,
+      image: '/images/custom-furniture/leather-furniture/A Welcoming and Inviting Chair.jpeg',
       description:
-        'Transform your living space with our custom furniture solutions. Recliners, sofas, and more designed to fit your space perfectly.',
+        'Transform your living space with our architectural bespoke turnkey solutions. Recliners, sofas, and more designed to fit your space perfectly.',
       features: [
         'Custom Sizing',
         'Fabric Selection',
@@ -91,12 +94,14 @@ const ProductCategory = () => {
           id: 'leather-furniture',
           name: 'Leather Furniture',
           icon: Armchair,
+          image: '/images/custom-furniture/leather-furniture/Chapman Dual-Power Reclining Sectional.jpeg',
           description: 'Premium leather recliners, armchairs, and accent pieces',
         },
         {
           id: 'modern-sofa',
           name: 'Modern Sofas',
           icon: Sofa,
+          image: '/images/custom-furniture/modern-sofa/Modern Italian Leather Sofa.jpeg',
           description: 'Contemporary sofas and sectionals for modern living',
         },
       ],
@@ -104,6 +109,7 @@ const ProductCategory = () => {
     automotive: {
       name: 'Automotive',
       icon: Car,
+      image: '/images/automotive/Car seat red.jpeg',
       description:
         "Premium car seat covers and upholstery services. Protect and enhance your vehicle's interior with our quality solutions.",
       features: [
@@ -208,13 +214,23 @@ const ProductCategory = () => {
             {/* Header Content - Centered */}
             <VStack spacing={6} textAlign="center">
               <Center
-                w={{ base: '80px', md: '100px' }}
-                h={{ base: '80px', md: '100px' }}
+                w={{ base: '180px', md: '220px' }}
+                h={{ base: '180px', md: '220px' }}
                 rounded="2xl"
                 bg="whiteAlpha.100"
-                color="#c9a227"
+                overflow="hidden"
+                border="2px solid"
+                borderColor="#c9a227"
+                boxShadow="lg"
               >
-                <Icon size={48} />
+                <Image
+                  src={data.image || '/images/logo/logo_2-removebg-preview.png'}
+                  alt={data.name}
+                  w="100%"
+                  h="100%"
+                  objectFit="cover"
+                  fallbackSrc="/images/logo/logo_2-removebg-preview.png"
+                />
               </Center>
 
               <Heading
@@ -273,13 +289,22 @@ const ProductCategory = () => {
                     >
                       <VStack spacing={3}>
                         <Center
-                          w="60px"
-                          h="60px"
+                          w="120px"
+                          h="120px"
                           rounded="xl"
                           bg={isActive ? '#c9a227' : 'whiteAlpha.100'}
-                          color={isActive ? '#0a0a0a' : '#c9a227'}
+                          overflow="hidden"
+                          border="2px solid"
+                          borderColor={isActive ? '#c9a227' : '#2a2a2a'}
                         >
-                          <SubIcon size={32} />
+                          <Image
+                            src={subcat.image || '/images/logo/logo_2-removebg-preview.png'}
+                            alt={subcat.name}
+                            w="100%"
+                            h="100%"
+                            objectFit="cover"
+                            fallbackSrc="/images/logo/logo_2-removebg-preview.png"
+                          />
                         </Center>
                         <Heading as="h3" size="md" color="white">
                           {subcat.name}

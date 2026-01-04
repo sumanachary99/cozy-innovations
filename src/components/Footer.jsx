@@ -30,7 +30,7 @@ const Footer = () => {
   const services = [
     { to: '/products/construction', label: 'Construction' },
     { to: '/products/interior', label: 'Interior Designing' },
-    { to: '/products/custom-furniture', label: 'Custom Furniture' },
+    { to: '/products/custom-furniture', label: 'Architectural Bespoke Turnkey' },
     { to: '/products/automotive', label: 'Automotive' },
   ]
 
@@ -159,8 +159,8 @@ const Footer = () => {
               <ContactItem icon={Phone} href="tel:+919071234091">
                 +91 90712 34091
               </ContactItem>
-              <ContactItem icon={Mail} href="mailto:info@cozyinnovations.com">
-                info@cozyinnovations.com
+              <ContactItem icon={Mail} href="mailto:cozyinnovations2012@gmail.com">
+                cozyinnovations2012@gmail.com
               </ContactItem>
               <ContactItem icon={Clock}>Mon - Sat: 9:00 AM - 7:00 PM</ContactItem>
               <HStack spacing={3} align="flex-start">

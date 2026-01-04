@@ -53,7 +53,7 @@ const Contact = () => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    const mailtoLink = `mailto:info@cozyinnovations.com?subject=Quote Request from ${formData.name}&body=Name: ${formData.name}%0APhone: ${formData.phone}%0AEmail: ${formData.email}%0AProduct: ${formData.product}%0AComments: ${formData.comments}`
+    const mailtoLink = `mailto:cozyinnovations2012@gmail.com?subject=Quote Request from ${formData.name}&body=Name: ${formData.name}%0APhone: ${formData.phone}%0AEmail: ${formData.email}%0AProduct: ${formData.product}%0AComments: ${formData.comments}`
     window.location.href = mailtoLink
 
     setTimeout(() => {
@@ -85,8 +85,8 @@ const Contact = () => {
     {
       icon: Mail,
       title: 'Email',
-      content: 'info@cozyinnovations.com',
-      link: 'mailto:info@cozyinnovations.com',
+      content: 'cozyinnovations2012@gmail.com',
+      link: 'mailto:cozyinnovations2012@gmail.com',
     },
     {
       icon: MapPin,
