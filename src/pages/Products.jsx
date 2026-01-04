@@ -1,5 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import getImagePath from '../utils/getImagePath'
 import {
   Box,
   Container,
@@ -29,28 +30,28 @@ const Products = () => {
       name: 'Construction',
       description: 'Professional construction services',
       icon: Building2,
-      image: '/images/construction/Elevation.jpeg',
+      image: getImagePath('/images/construction/Elevation.jpeg'),
     },
     {
       id: 'interior',
       name: 'Interior Designing',
       description: 'Expert interior design solutions',
       icon: PaintBucket,
-      image: '/images/interior/Modern Bedroom Looks You Can Recreate.jpeg',
+      image: getImagePath('/images/interior/Modern Bedroom Looks You Can Recreate.jpeg'),
     },
     {
       id: 'custom-furniture',
       name: 'Architectural Bespoke Turnkey',
       description: 'Architectural bespoke turnkey solutions. Recliners, sofas, and custom furniture tailored to your needs',
       icon: Sofa,
-      image: '/images/custom-furniture/leather-furniture/A Welcoming and Inviting Chair.jpeg',
+      image: getImagePath('/images/custom-furniture/leather-furniture/A Welcoming and Inviting Chair.jpeg'),
     },
     {
       id: 'automotive',
       name: 'Automotive',
       description: 'Premium car seat covers and upholstery',
       icon: Car,
-      image: '/images/automotive/Car seat red.jpeg',
+      image: getImagePath('/images/automotive/Car seat red.jpeg'),
     },
   ]
 
@@ -167,12 +168,12 @@ const Products = () => {
                         }}
                       >
                         <Image
-                          src={category.image || '/images/logo/logo_2-removebg-preview.png'}
+                          src={category.image || getImagePath('/images/logo/logo_2-removebg-preview.png')}
                           alt={category.name}
                           w="100%"
                           h="100%"
                           objectFit="cover"
-                          fallbackSrc="/images/logo/logo_2-removebg-preview.png"
+                          fallbackSrc={getImagePath('/images/logo/logo_2-removebg-preview.png')}
                         />
                       </Center>
 

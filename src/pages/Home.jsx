@@ -1,6 +1,7 @@
 import { Link as RouterLink } from 'react-router-dom'
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import getImagePath from '../utils/getImagePath'
 import {
   Box,
   Container,
@@ -36,7 +37,7 @@ const Home = () => {
   const services = [
     {
       icon: PaintBucket,
-      image: '/images/interior/Modern Bedroom Looks You Can Recreate.jpeg',
+      image: getImagePath('/images/interior/Modern Bedroom Looks You Can Recreate.jpeg'),
       title: 'Interior Designing',
       description:
         'Transform your spaces with our expert interior design solutions. From concept to completion.',
@@ -45,7 +46,7 @@ const Home = () => {
     },
     {
       icon: Sofa,
-      image: '/images/custom-furniture/leather-furniture/A Welcoming and Inviting Chair.jpeg',
+      image: getImagePath('/images/custom-furniture/leather-furniture/A Welcoming and Inviting Chair.jpeg'),
       title: 'Architectural Bespoke Turnkey',
       description:
         'Architectural bespoke turnkey solutions. Recliners, sofas, and custom furniture crafted to perfection. Designed to fit your space.',
@@ -54,7 +55,7 @@ const Home = () => {
     },
     {
       icon: Building2,
-      image: '/images/construction/Elevation.jpeg',
+      image: getImagePath('/images/construction/Elevation.jpeg'),
       title: 'Construction',
       description:
         'Professional construction services for residential and commercial projects. Quality workmanship guaranteed.',
@@ -63,7 +64,7 @@ const Home = () => {
     },
     {
       icon: Car,
-      image: '/images/automotive/Car seat red.jpeg',
+      image: getImagePath('/images/automotive/Car seat red.jpeg'),
       title: 'Automotive',
       description:
         'Premium car seat covers and upholstery services. Protect and enhance your vehicle interior.',
@@ -168,11 +169,11 @@ const Home = () => {
                       w="100%"
                       h="100%"
                       objectFit="cover"
-                      fallbackSrc="/images/logo/logo_2-removebg-preview.png"
+                      fallbackSrc={getImagePath('/images/logo/logo_2-removebg-preview.png')}
                       loading="eager"
                       onError={(e) => {
                         console.error('Image failed to load:', currentService.image)
-                        e.target.src = '/images/logo/logo_2-removebg-preview.png'
+                        e.target.src = getImagePath('/images/logo/logo_2-removebg-preview.png')
                       }}
                     />
                   </Center>
