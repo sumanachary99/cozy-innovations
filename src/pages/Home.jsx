@@ -13,6 +13,7 @@ import {
   Flex,
   Link,
   Center,
+  Image,
 } from '@chakra-ui/react'
 import {
   Building2,
@@ -35,6 +36,7 @@ const Home = () => {
   const services = [
     {
       icon: Building2,
+      image: '/images/construction/Elevation.jpeg',
       title: 'Construction',
       description:
         'Professional construction services for residential and commercial projects. Quality workmanship guaranteed.',
@@ -43,6 +45,7 @@ const Home = () => {
     },
     {
       icon: PaintBucket,
+      image: '/images/interior/Modern Bedroom Looks You Can Recreate.jpeg',
       title: 'Interior Designing',
       description:
         'Transform your spaces with our expert interior design solutions. From concept to completion.',
@@ -51,6 +54,7 @@ const Home = () => {
     },
     {
       icon: Sofa,
+      image: '/images/custom-furniture/leather-furniture/A Welcoming and Inviting Chair.jpeg',
       title: 'Custom Furniture',
       description:
         'Recliners, sofas, and custom furniture crafted to perfection. Designed to fit your space.',
@@ -59,6 +63,7 @@ const Home = () => {
     },
     {
       icon: Car,
+      image: '/images/automotive/Car seat red.jpeg',
       title: 'Automotive',
       description:
         'Premium car seat covers and upholstery services. Protect and enhance your vehicle interior.',
@@ -147,13 +152,29 @@ const Home = () => {
                   py={4}
                 >
                   <Center
-                    w={{ base: '80px', md: '100px' }}
-                    h={{ base: '80px', md: '100px' }}
+                    w={{ base: '120px', md: '150px' }}
+                    h={{ base: '120px', md: '150px' }}
                     rounded="2xl"
                     bg="whiteAlpha.100"
-                    color="brand.500"
+                    overflow="hidden"
+                    border="2px solid"
+                    borderColor="brand.500"
+                    boxShadow="lg"
+                    position="relative"
                   >
-                    <CurrentIcon size={48} />
+                    <Image
+                      src={currentService.image}
+                      alt={currentService.title}
+                      w="100%"
+                      h="100%"
+                      objectFit="cover"
+                      fallbackSrc="/images/logo/logo_2-removebg-preview.png"
+                      loading="eager"
+                      onError={(e) => {
+                        console.error('Image failed to load:', currentService.image)
+                        e.target.src = '/images/logo/logo_2-removebg-preview.png'
+                      }}
+                    />
                   </Center>
 
                   <Heading
