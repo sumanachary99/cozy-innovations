@@ -100,16 +100,16 @@ const Footer = () => {
           mb={{ base: 10, md: 12 }}
         >
           {/* Brand Section */}
-          <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={4}>
+          <VStack align={{ base: "center", sm: "flex-start" }} spacing={4}>
             <Logo size="default" showText={true} />
             <Text
               color="gray.400"
               fontSize="sm"
               lineHeight="tall"
-              textAlign={{ base: 'center', sm: 'left' }}
+              textAlign={{ base: "center", sm: "left" }}
             >
-              Transforming spaces with premium furniture, expert construction, and
-              innovative interior solutions since 2012.
+              Transforming spaces with premium furniture, expert construction,
+              and innovative interior solutions since 2012.
             </Text>
             <Button
               as={RouterLink}
@@ -123,11 +123,11 @@ const Footer = () => {
           </VStack>
 
           {/* Quick Links */}
-          <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={4}>
+          <VStack align={{ base: "center", sm: "flex-start" }} spacing={4}>
             <Heading as="h4" size="sm" color="white">
               Quick Links
             </Heading>
-            <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={2}>
+            <VStack align={{ base: "center", sm: "flex-start" }} spacing={2}>
               {quickLinks.map((link) => (
                 <FooterLink key={link.to} to={link.to}>
                   {link.label}
@@ -137,11 +137,11 @@ const Footer = () => {
           </VStack>
 
           {/* Services */}
-          <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={4}>
+          <VStack align={{ base: "center", sm: "flex-start" }} spacing={4}>
             <Heading as="h4" size="sm" color="white">
               Services
             </Heading>
-            <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={2}>
+            <VStack align={{ base: "center", sm: "flex-start" }} spacing={2}>
               {services.map((service) => (
                 <FooterLink key={service.to} to={service.to}>
                   {service.label}
@@ -151,18 +151,29 @@ const Footer = () => {
           </VStack>
 
           {/* Contact */}
-          <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={4}>
+          <VStack align={{ base: "center", sm: "flex-start" }} spacing={4}>
             <Heading as="h4" size="sm" color="white">
               Contact Us
             </Heading>
-            <VStack align={{ base: 'center', sm: 'flex-start' }} spacing={3}>
+            <VStack align={{ base: "center", sm: "flex-start" }} spacing={3}>
               <ContactItem icon={Phone} href="tel:+919071234091">
                 +91 90712 34091
               </ContactItem>
-              <ContactItem icon={Mail} href="mailto:cozyinnovations2012@gmail.com">
+              <ContactItem icon={Phone} href="tel:+918105715901">
+                +91 81057 15901
+              </ContactItem>
+              <ContactItem icon={Phone} href="tel:+918951641723">
+                +91 89516 41723
+              </ContactItem>
+              <ContactItem
+                icon={Mail}
+                href="mailto:cozyinnovations2012@gmail.com"
+              >
                 cozyinnovations2012@gmail.com
               </ContactItem>
-              <ContactItem icon={Clock}>Mon - Sat: 9:00 AM - 7:00 PM</ContactItem>
+              <ContactItem icon={Clock}>
+                Mon - Sat: 9:00 AM - 7:00 PM
+              </ContactItem>
               <HStack spacing={3} align="flex-start">
                 <Box color="brand.500" mt={0.5}>
                   <MapPin size={18} />
@@ -189,7 +200,7 @@ const Footer = () => {
         <Divider borderColor="dark.50" />
 
         <Flex
-          direction={{ base: 'column', md: 'row' }}
+          direction={{ base: "column", md: "row" }}
           justify="space-between"
           align="center"
           pt={{ base: 6, md: 8 }}
@@ -209,7 +220,7 @@ const Footer = () => {
         </Flex>
       </Container>
     </Box>
-  )
+  );
 }
 
 export default Footer

@@ -21,39 +21,47 @@ import {
   ArrowRight,
 } from 'lucide-react'
 
+// Import images
+import constructionImg from '../assets/images/construction/Elevation.jpeg'
+import interiorImg from '../assets/images/interior/Modern Bedroom Looks You Can Recreate.jpeg'
+import furnitureImg from '../assets/images/custom-furniture/leather-furniture/A Welcoming and Inviting Chair.jpeg'
+import automotiveImg from '../assets/images/automotive/Car seat red.jpeg'
+import logoPlaceholder from '../assets/images/logo/logo_2-removebg-preview.png'
+
 const MotionBox = motion(Box)
 
 const Products = () => {
   const categories = [
     {
-      id: 'construction',
-      name: 'Construction',
-      description: 'Professional construction services',
+      id: "construction",
+      name: "Construction",
+      description: "Professional construction services",
       icon: Building2,
-      image: getImagePath('/images/construction/Elevation.jpeg'),
+      image: constructionImg,
     },
     {
-      id: 'interior',
-      name: 'Interior Designing',
-      description: 'Expert interior design solutions',
+      id: "interior",
+      name: "Interior Designing",
+      description: "Expert interior design solutions",
       icon: PaintBucket,
-      image: getImagePath('/images/interior/Modern Bedroom Looks You Can Recreate.jpeg'),
+      image: interiorImg,
     },
     {
-      id: 'custom-furniture',
-      name: 'Architectural Bespoke Turnkey',
-      description: 'Architectural bespoke turnkey solutions. Recliners, sofas, and custom furniture tailored to your needs',
+      id: "custom-furniture",
+      name: "Architectural Bespoke Turnkey",
+      description:
+        "Architectural bespoke turnkey solutions. Recliners, sofas, and custom furniture tailored to your needs",
       icon: Sofa,
-      image: getImagePath('/images/custom-furniture/leather-furniture/A Welcoming and Inviting Chair.jpeg'),
+      image: furnitureImg,
     },
     {
-      id: 'automotive',
-      name: 'Automotive',
-      description: 'Premium car seat covers and upholstery',
+      id: "automotive",
+      name: "Automotive",
+      description: "Premium car seat covers and upholstery",
       icon: Car,
-      image: getImagePath('/images/automotive/Car seat red.jpeg'),
+      image: automotiveImg,
     },
-  ]
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -102,14 +110,14 @@ const Products = () => {
             <VStack spacing={4} textAlign="center">
               <Heading
                 as="h1"
-                fontSize={{ base: '3xl', md: '5xl' }}
+                fontSize={{ base: "3xl", md: "5xl" }}
                 fontWeight={700}
                 bgGradient="linear(to-r, brand.400, white)"
                 bgClip="text"
               >
                 Our Products & Services
               </Heading>
-              <Text color="gray.400" fontSize={{ base: 'md', md: 'lg' }}>
+              <Text color="gray.400" fontSize={{ base: "md", md: "lg" }}>
                 Explore our wide range of premium products and services
               </Text>
             </VStack>
@@ -133,7 +141,7 @@ const Products = () => {
                 <Link
                   as={RouterLink}
                   to={`/products/${category.id}`}
-                  _hover={{ textDecoration: 'none' }}
+                  _hover={{ textDecoration: "none" }}
                   display="block"
                   h="full"
                 >
@@ -146,9 +154,9 @@ const Products = () => {
                     h="full"
                     transition="all 0.3s ease"
                     _hover={{
-                      borderColor: 'brand.600',
-                      transform: 'translateY(-8px)',
-                      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)',
+                      borderColor: "brand.600",
+                      transform: "translateY(-8px)",
+                      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)",
                     }}
                   >
                     <VStack spacing={4} align="center" textAlign="center">
@@ -163,17 +171,17 @@ const Products = () => {
                         boxShadow="md"
                         transition="all 0.3s"
                         _groupHover={{
-                          borderColor: 'brand.600',
-                          transform: 'scale(1.05)',
+                          borderColor: "brand.600",
+                          transform: "scale(1.05)",
                         }}
                       >
                         <Image
-                          src={category.image || getImagePath('/images/logo/logo_2-removebg-preview.png')}
+                          src={category.image || logoPlaceholder}
                           alt={category.name}
                           w="100%"
                           h="100%"
                           objectFit="cover"
-                          fallbackSrc={getImagePath('/images/logo/logo_2-removebg-preview.png')}
+                          fallbackSrc={logoPlaceholder}
                         />
                       </Center>
 
@@ -204,7 +212,7 @@ const Products = () => {
         </Container>
       </Box>
     </Box>
-  )
+  );
 }
 
 export default Products

@@ -37,6 +37,15 @@ import {
 } from 'lucide-react'
 import getCategoryImages from '../utils/imageLoader'
 
+// Import static images
+import constructionHeroImg from '../assets/images/construction/Elevation.jpeg'
+import interiorHeroImg from '../assets/images/interior/Modern Bedroom Looks You Can Recreate.jpeg'
+import furnitureHeroImg from '../assets/images/custom-furniture/leather-furniture/A Welcoming and Inviting Chair.jpeg'
+import automotiveHeroImg from '../assets/images/automotive/Car seat red.jpeg'
+import leatherSubcatImg from '../assets/images/custom-furniture/leather-furniture/Chapman Dual-Power Reclining Sectional.jpeg'
+import sofaSubcatImg from '../assets/images/custom-furniture/modern-sofa/Modern Italian Leather Sofa.jpeg'
+import logoPlaceholder from '../assets/images/logo/logo_2-removebg-preview.png'
+
 const MotionBox = motion(Box)
 
 const ProductCategory = () => {
@@ -47,130 +56,133 @@ const ProductCategory = () => {
 
   const categoryData = {
     construction: {
-      name: 'Construction',
+      name: "Construction",
       icon: Building2,
-      image: getImagePath('/images/construction/Elevation.jpeg'),
+      image: constructionHeroImg,
       description:
-        'Professional construction services for residential and commercial projects. Quality workmanship guaranteed.',
+        "Professional construction services for residential and commercial projects. Quality workmanship guaranteed.",
       features: [
-        'Expert Team',
-        'Quality Materials',
-        'Timely Completion',
-        'Project Management',
-        'Permits Handling',
-        'Safety Compliance',
+        "Expert Team",
+        "Quality Materials",
+        "Timely Completion",
+        "Project Management",
+        "Permits Handling",
+        "Safety Compliance",
       ],
     },
     interior: {
-      name: 'Interior Designing',
+      name: "Interior Designing",
       icon: PaintBucket,
-      image: getImagePath('/images/interior/Modern Bedroom Looks You Can Recreate.jpeg'),
+      image: interiorHeroImg,
       description:
-        'Expert interior design solutions to transform your spaces. From concept to completion, we bring your vision to life.',
+        "Expert interior design solutions to transform your spaces. From concept to completion, we bring your vision to life.",
       features: [
-        '3D Visualization',
-        'Space Planning',
-        'Color Consultation',
-        'Complete Execution',
-        'Furniture Selection',
-        'Lighting Design',
+        "3D Visualization",
+        "Space Planning",
+        "Color Consultation",
+        "Complete Execution",
+        "Furniture Selection",
+        "Lighting Design",
       ],
     },
-    'custom-furniture': {
-      name: 'Architectural Bespoke Turnkey',
+    "custom-furniture": {
+      name: "Architectural Bespoke Turnkey",
       icon: Sofa,
-      image: getImagePath('/images/custom-furniture/leather-furniture/A Welcoming and Inviting Chair.jpeg'),
+      image: furnitureHeroImg,
       description:
-        'Transform your living space with our architectural bespoke turnkey solutions. Recliners, sofas, and more designed to fit your space perfectly.',
+        "Transform your living space with our architectural bespoke turnkey solutions. Recliners, sofas, and more designed to fit your space perfectly.",
       features: [
-        'Custom Sizing',
-        'Fabric Selection',
-        'Leather Options',
-        'Modular Options',
-        'Expert Design',
-        'Premium Upholstery',
+        "Custom Sizing",
+        "Fabric Selection",
+        "Leather Options",
+        "Modular Options",
+        "Expert Design",
+        "Premium Upholstery",
       ],
       subcategories: [
         {
-          id: 'leather-furniture',
-          name: 'Leather Furniture',
+          id: "leather-furniture",
+          name: "Leather Furniture",
           icon: Armchair,
-          image: getImagePath('/images/custom-furniture/leather-furniture/Chapman Dual-Power Reclining Sectional.jpeg'),
-          description: 'Premium leather recliners, armchairs, and accent pieces',
+          image: leatherSubcatImg,
+          description:
+            "Premium leather recliners, armchairs, and accent pieces",
         },
         {
-          id: 'modern-sofa',
-          name: 'Modern Sofas',
+          id: "modern-sofa",
+          name: "Modern Sofas",
           icon: Sofa,
-          image: getImagePath('/images/custom-furniture/modern-sofa/Modern Italian Leather Sofa.jpeg'),
-          description: 'Contemporary sofas and sectionals for modern living',
+          image: sofaSubcatImg,
+          description: "Contemporary sofas and sectionals for modern living",
         },
       ],
     },
     automotive: {
-      name: 'Automotive',
+      name: "Automotive",
       icon: Car,
-      image: getImagePath('/images/automotive/Car seat red.jpeg'),
+      image: automotiveHeroImg,
       description:
         "Premium car seat covers and upholstery services. Protect and enhance your vehicle's interior with our quality solutions.",
       features: [
-        'Premium Materials',
-        'Perfect Fit',
-        'Easy Installation',
-        'Multiple Colors',
-        'Leather Options',
-        'Custom Designs',
+        "Premium Materials",
+        "Perfect Fit",
+        "Easy Installation",
+        "Multiple Colors",
+        "Leather Options",
+        "Custom Designs",
       ],
     },
-  }
+  };
 
   const data = categoryData[category] || {
-    name: 'Product',
+    name: "Product",
     icon: Building2,
-    description: 'Explore our quality products and services.',
+    description: "Explore our quality products and services.",
     features: [],
-  }
+  };
 
-  const Icon = data.icon
+  const Icon = data.icon;
 
   const allImages = useMemo(() => {
     if (category) {
-      return getCategoryImages(category)
+      return getCategoryImages(category);
     }
-    return []
-  }, [category])
+    return [];
+  }, [category]);
 
   const images = useMemo(() => {
-    if (activeSubcategory === 'all') {
-      return allImages
+    if (activeSubcategory === "all") {
+      return allImages;
     }
     const subcatName =
-      activeSubcategory === 'leather-furniture' ? 'Leather Furniture' : 'Modern Sofa'
-    return allImages.filter((img) => img.subcategory === subcatName)
-  }, [allImages, activeSubcategory])
+      activeSubcategory === "leather-furniture"
+        ? "Leather Furniture"
+        : "Modern Sofa";
+    return allImages.filter((img) => img.subcategory === subcatName);
+  }, [allImages, activeSubcategory]);
 
   const openLightbox = (index) => {
-    setCurrentIndex(index)
-    setSelectedImage(images[index])
-  }
+    setCurrentIndex(index);
+    setSelectedImage(images[index]);
+  };
 
   const closeLightbox = () => {
-    setSelectedImage(null)
-  }
+    setSelectedImage(null);
+  };
 
   const nextImage = (e) => {
-    e.stopPropagation()
-    const newIndex = (currentIndex + 1) % images.length
-    setCurrentIndex(newIndex)
-    setSelectedImage(images[newIndex])
-  }
+    e.stopPropagation();
+    const newIndex = (currentIndex + 1) % images.length;
+    setCurrentIndex(newIndex);
+    setSelectedImage(images[newIndex]);
+  };
 
   const prevImage = (e) => {
-    e.stopPropagation()
-    const newIndex = (currentIndex - 1 + images.length) % images.length
-    setCurrentIndex(newIndex)
-    setSelectedImage(images[newIndex])
-  }
+    e.stopPropagation();
+    const newIndex = (currentIndex - 1 + images.length) % images.length;
+    setCurrentIndex(newIndex);
+    setSelectedImage(images[newIndex]);
+  };
 
   return (
     <Box>
@@ -207,7 +219,7 @@ const ProductCategory = () => {
               alignItems="center"
               gap={2}
               mb={8}
-              _hover={{ color: '#d4af37' }}
+              _hover={{ color: "#d4af37" }}
             >
               <ArrowLeft size={18} /> Back to Home
             </Link>
@@ -215,8 +227,8 @@ const ProductCategory = () => {
             {/* Header Content - Centered */}
             <VStack spacing={6} textAlign="center">
               <Center
-                w={{ base: '180px', md: '220px' }}
-                h={{ base: '180px', md: '220px' }}
+                w={{ base: "180px", md: "220px" }}
+                h={{ base: "180px", md: "220px" }}
                 rounded="2xl"
                 bg="whiteAlpha.100"
                 overflow="hidden"
@@ -225,18 +237,18 @@ const ProductCategory = () => {
                 boxShadow="lg"
               >
                 <Image
-                  src={data.image || getImagePath('/images/logo/logo_2-removebg-preview.png')}
+                  src={data.image || logoPlaceholder}
                   alt={data.name}
                   w="100%"
                   h="100%"
                   objectFit="cover"
-                  fallbackSrc={getImagePath('/images/logo/logo_2-removebg-preview.png')}
+                  fallbackSrc={logoPlaceholder}
                 />
               </Center>
 
               <Heading
                 as="h1"
-                fontSize={{ base: '3xl', md: '5xl' }}
+                fontSize={{ base: "3xl", md: "5xl" }}
                 fontWeight={700}
                 bgGradient="linear(to-r, #d4af37, white)"
                 bgClip="text"
@@ -246,7 +258,7 @@ const ProductCategory = () => {
 
               <Text
                 color="gray.400"
-                fontSize={{ base: 'md', md: 'lg' }}
+                fontSize={{ base: "md", md: "lg" }}
                 maxW="700px"
               >
                 {data.description}
@@ -255,7 +267,6 @@ const ProductCategory = () => {
           </MotionBox>
         </Container>
       </Box>
-
       {/* Subcategory Cards for Custom Furniture */}
       {data.subcategories && (
         <Box as="section" py={{ base: 8, md: 12 }}>
@@ -265,27 +276,33 @@ const ProductCategory = () => {
                 Choose a Category
               </Heading>
 
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6} w="full" maxW="800px" mx="auto">
+              <SimpleGrid
+                columns={{ base: 1, md: 2 }}
+                spacing={6}
+                w="full"
+                maxW="800px"
+                mx="auto"
+              >
                 {data.subcategories.map((subcat) => {
-                  const SubIcon = subcat.icon
-                  const isActive = activeSubcategory === subcat.id
+                  const SubIcon = subcat.icon;
+                  const isActive = activeSubcategory === subcat.id;
                   return (
                     <Box
                       key={subcat.id}
                       as="button"
                       onClick={() =>
-                        setActiveSubcategory(isActive ? 'all' : subcat.id)
+                        setActiveSubcategory(isActive ? "all" : subcat.id)
                       }
-                      bg={isActive ? 'rgba(201, 162, 39, 0.1)' : '#1a1a1a'}
+                      bg={isActive ? "rgba(201, 162, 39, 0.1)" : "#1a1a1a"}
                       border="2px solid"
-                      borderColor={isActive ? '#c9a227' : '#2a2a2a'}
+                      borderColor={isActive ? "#c9a227" : "#2a2a2a"}
                       borderRadius="xl"
                       p={6}
                       textAlign="center"
                       transition="all 0.3s"
                       _hover={{
-                        borderColor: '#c9a227',
-                        transform: 'translateY(-4px)',
+                        borderColor: "#c9a227",
+                        transform: "translateY(-4px)",
                       }}
                     >
                       <VStack spacing={3}>
@@ -293,18 +310,18 @@ const ProductCategory = () => {
                           w="120px"
                           h="120px"
                           rounded="xl"
-                          bg={isActive ? '#c9a227' : 'whiteAlpha.100'}
+                          bg={isActive ? "#c9a227" : "whiteAlpha.100"}
                           overflow="hidden"
                           border="2px solid"
-                          borderColor={isActive ? '#c9a227' : '#2a2a2a'}
+                          borderColor={isActive ? "#c9a227" : "#2a2a2a"}
                         >
                           <Image
-                            src={subcat.image || getImagePath('/images/logo/logo_2-removebg-preview.png')}
+                            src={subcat.image || logoPlaceholder}
                             alt={subcat.name}
                             w="100%"
                             h="100%"
                             objectFit="cover"
-                            fallbackSrc={getImagePath('/images/logo/logo_2-removebg-preview.png')}
+                            fallbackSrc={logoPlaceholder}
                           />
                         </Center>
                         <Heading as="h3" size="md" color="white">
@@ -314,26 +331,28 @@ const ProductCategory = () => {
                           {subcat.description}
                         </Text>
                         <Badge colorScheme="yellow" variant="subtle">
-                          {allImages.filter(
-                            (img) =>
-                              img.subcategory ===
-                              (subcat.id === 'leather-furniture'
-                                ? 'Leather Furniture'
-                                : 'Modern Sofa')
-                          ).length}{' '}
+                          {
+                            allImages.filter(
+                              (img) =>
+                                img.subcategory ===
+                                (subcat.id === "leather-furniture"
+                                  ? "Leather Furniture"
+                                  : "Modern Sofa")
+                            ).length
+                          }{" "}
                           images
                         </Badge>
                       </VStack>
                     </Box>
-                  )
+                  );
                 })}
               </SimpleGrid>
 
-              {activeSubcategory !== 'all' && (
+              {activeSubcategory !== "all" && (
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setActiveSubcategory('all')}
+                  onClick={() => setActiveSubcategory("all")}
                 >
                   Show All Furniture
                 </Button>
@@ -342,7 +361,6 @@ const ProductCategory = () => {
           </Container>
         </Box>
       )}
-
       {/* Category Content */}
       <Box as="section" py={{ base: 6, md: 10 }}>
         <Container maxW="1200px">
@@ -388,7 +406,11 @@ const ProductCategory = () => {
             </Heading>
 
             {images.length > 0 ? (
-              <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} spacing={4} w="full">
+              <SimpleGrid
+                columns={{ base: 2, md: 3, lg: 4 }}
+                spacing={4}
+                w="full"
+              >
                 {images.map((image, index) => (
                   <Box
                     key={index}
@@ -400,8 +422,8 @@ const ProductCategory = () => {
                     transition="all 0.3s"
                     aspectRatio="1"
                     _hover={{
-                      transform: 'scale(1.03)',
-                      boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)',
+                      transform: "scale(1.03)",
+                      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
                     }}
                   >
                     <Image
@@ -412,7 +434,7 @@ const ProductCategory = () => {
                       objectFit="cover"
                       loading="lazy"
                       onError={(e) => {
-                        e.target.parentElement.style.display = 'none'
+                        e.target.parentElement.style.display = "none";
                       }}
                     />
                     {image.subcategory && (
@@ -473,10 +495,10 @@ const ProductCategory = () => {
                   Contact us for a free consultation and quote
                 </Text>
                 <Flex
-                  direction={{ base: 'column', sm: 'row' }}
+                  direction={{ base: "column", sm: "row" }}
                   gap={4}
                   pt={4}
-                  w={{ base: 'full', sm: 'auto' }}
+                  w={{ base: "full", sm: "auto" }}
                 >
                   <Button
                     as={RouterLink}
@@ -484,19 +506,19 @@ const ProductCategory = () => {
                     variant="primary"
                     size="lg"
                     rightIcon={<ArrowRight size={18} />}
-                    w={{ base: 'full', sm: 'auto' }}
+                    w={{ base: "full", sm: "auto" }}
                   >
                     Get Quote
                   </Button>
                   <Button
                     as={Link}
-                    href="tel:+919071234091"
+                    href="tel:+918105715901"
                     variant="secondary"
                     size="lg"
                     leftIcon={<Phone size={18} />}
-                    w={{ base: 'full', sm: 'auto' }}
+                    w={{ base: "full", sm: "auto" }}
                   >
-                    +91 90712 34091
+                    +91 81057 15901
                   </Button>
                 </Flex>
               </VStack>
@@ -504,9 +526,13 @@ const ProductCategory = () => {
           </MotionBox>
         </Container>
       </Box>
-
-      {/* Lightbox Modal */}
-      <Modal isOpen={!!selectedImage} onClose={closeLightbox} size="6xl" isCentered>
+      ;{/* Lightbox Modal */}
+      <Modal
+        isOpen={!!selectedImage}
+        onClose={closeLightbox}
+        size="6xl"
+        isCentered
+      >
         <ModalOverlay bg="blackAlpha.900" backdropFilter="blur(8px)" />
         <ModalContent bg="transparent" boxShadow="none" maxW="90vw">
           <IconButton
@@ -519,7 +545,7 @@ const ProductCategory = () => {
             color="white"
             size="lg"
             aria-label="Close"
-            _hover={{ bg: 'whiteAlpha.200' }}
+            _hover={{ bg: "whiteAlpha.200" }}
           />
 
           <Flex align="center" justify="center" position="relative">
@@ -533,7 +559,7 @@ const ProductCategory = () => {
               size="lg"
               rounded="full"
               bg="whiteAlpha.200"
-              _hover={{ bg: '#c9a227', color: '#0a0a0a' }}
+              _hover={{ bg: "#c9a227", color: "#0a0a0a" }}
               aria-label="Previous"
             />
 
@@ -573,7 +599,7 @@ const ProductCategory = () => {
               size="lg"
               rounded="full"
               bg="whiteAlpha.200"
-              _hover={{ bg: '#c9a227', color: '#0a0a0a' }}
+              _hover={{ bg: "#c9a227", color: "#0a0a0a" }}
               aria-label="Next"
             />
           </Flex>
@@ -584,7 +610,7 @@ const ProductCategory = () => {
         </ModalContent>
       </Modal>
     </Box>
-  )
+  );
 }
 
 export default ProductCategory

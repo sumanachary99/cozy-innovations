@@ -78,29 +78,32 @@ const Contact = () => {
   const contactInfo = [
     {
       icon: Phone,
-      title: 'Phone',
-      content: '+91 90712 34091',
-      link: 'tel:+919071234091',
+      title: "Phone",
+      phones: [
+        { label: "+91 90712 34091", link: "tel:+919071234091" },
+        { label: "+91 81057 15901", link: "tel:+918105715901" },
+        { label: "+91 89516 41723", link: "tel:+918951641723" },
+      ],
     },
     {
       icon: Mail,
-      title: 'Email',
-      content: 'cozyinnovations2012@gmail.com',
-      link: 'mailto:cozyinnovations2012@gmail.com',
+      title: "Email",
+      content: "cozyinnovations2012@gmail.com",
+      link: "mailto:cozyinnovations2012@gmail.com",
     },
     {
       icon: MapPin,
-      title: 'Locations',
-      content: 'Bangalore | Mysuru | Hassan',
+      title: "Locations",
+      content: "Bangalore | Mysuru | Hassan",
       link: null,
     },
     {
       icon: Clock,
-      title: 'Business Hours',
-      content: 'Mon - Sat: 9:00 AM - 7:00 PM',
+      title: "Business Hours",
+      content: "Mon - Sat: 9:00 AM - 7:00 PM",
       link: null,
     },
-  ]
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -108,12 +111,12 @@ const Contact = () => {
       opacity: 1,
       transition: { staggerChildren: 0.1 },
     },
-  }
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
-  }
+  };
 
   return (
     <Box>
@@ -143,14 +146,14 @@ const Contact = () => {
             <VStack spacing={4} textAlign="center">
               <Heading
                 as="h1"
-                fontSize={{ base: '3xl', md: '5xl' }}
+                fontSize={{ base: "3xl", md: "5xl" }}
                 fontWeight={700}
                 bgGradient="linear(to-r, brand.400, white)"
                 bgClip="text"
               >
                 Contact Us
               </Heading>
-              <Text color="gray.400" fontSize={{ base: 'md', md: 'lg' }}>
+              <Text color="gray.400" fontSize={{ base: "md", md: "lg" }}>
                 Get in touch for a free consultation and quote
               </Text>
             </VStack>
@@ -162,7 +165,7 @@ const Contact = () => {
       <Box as="section" py={{ base: 12, md: 20 }}>
         <Container maxW="1200px">
           <Grid
-            templateColumns={{ base: '1fr', lg: '1fr 1.2fr' }}
+            templateColumns={{ base: "1fr", lg: "1fr 1.2fr" }}
             gap={{ base: 12, lg: 16 }}
           >
             {/* Contact Info */}
@@ -173,7 +176,12 @@ const Contact = () => {
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
                 <VStack align="flex-start" spacing={6}>
-                  <Heading as="h2" fontSize="1.8rem" fontWeight={600} color="white">
+                  <Heading
+                    as="h2"
+                    fontSize="1.8rem"
+                    fontWeight={600}
+                    color="white"
+                  >
                     Get In Touch
                   </Heading>
                   <Text color="gray.400" lineHeight="1.7">
@@ -211,25 +219,39 @@ const Contact = () => {
                           <item.icon size={24} />
                         </Center>
                         <VStack align="flex-start" spacing={1}>
-                          <Text
-                            fontSize="1rem"
-                            fontWeight={600}
-                            color="white"
-                          >
+                          <Text fontSize="1rem" fontWeight={600} color="white">
                             {item.title}
                           </Text>
-                          {item.link ? (
+                          {item.phones ? (
+                            item.phones.map((phone, idx) => (
+                              <Link
+                                key={idx}
+                                href={phone.link}
+                                color="#c9a227"
+                                fontSize="1rem"
+                                fontWeight={500}
+                                _hover={{ color: "#d4af37" }}
+                                display="block"
+                              >
+                                {phone.label}
+                              </Link>
+                            ))
+                          ) : item.link ? (
                             <Link
                               href={item.link}
                               color="#c9a227"
                               fontSize="1rem"
                               fontWeight={500}
-                              _hover={{ color: '#d4af37' }}
+                              _hover={{ color: "#d4af37" }}
                             >
                               {item.content}
                             </Link>
                           ) : (
-                            <Text color="gray.400" fontSize="0.95rem" lineHeight="1.5">
+                            <Text
+                              color="gray.400"
+                              fontSize="0.95rem"
+                              lineHeight="1.5"
+                            >
                               {item.content}
                             </Text>
                           )}
@@ -248,7 +270,13 @@ const Contact = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <Heading as="h2" fontSize="1.8rem" fontWeight={600} color="white" mb={6}>
+                <Heading
+                  as="h2"
+                  fontSize="1.8rem"
+                  fontWeight={600}
+                  color="white"
+                  mb={6}
+                >
                   Request a Quote
                 </Heading>
 
@@ -262,14 +290,21 @@ const Contact = () => {
                   <form onSubmit={handleSubmit}>
                     <VStack spacing={5}>
                       <Grid
-                        templateColumns={{ base: '1fr', md: '1fr 1fr' }}
+                        templateColumns={{ base: "1fr", md: "1fr 1fr" }}
                         gap={5}
                         w="full"
                       >
                         <FormControl isRequired>
-                          <FormLabel color="gray.400" fontSize="0.9rem" fontWeight={500} requiredIndicator={null}>
+                          <FormLabel
+                            color="gray.400"
+                            fontSize="0.9rem"
+                            fontWeight={500}
+                            requiredIndicator={null}
+                          >
                             <HStack spacing={2}>
-                              <Box color="#c9a227"><User size={16} /></Box>
+                              <Box color="#c9a227">
+                                <User size={16} />
+                              </Box>
                               <Text>Your Name</Text>
                             </HStack>
                           </FormLabel>
@@ -282,16 +317,23 @@ const Contact = () => {
                             bg="#151515"
                             border="1px solid"
                             borderColor="#2a2a2a"
-                            _hover={{ borderColor: '#a68a1f', bg: '#1a1a1a' }}
-                            _focus={{ borderColor: '#c9a227', bg: '#1a1a1a' }}
-                            _placeholder={{ color: 'gray.600' }}
+                            _hover={{ borderColor: "#a68a1f", bg: "#1a1a1a" }}
+                            _focus={{ borderColor: "#c9a227", bg: "#1a1a1a" }}
+                            _placeholder={{ color: "gray.600" }}
                           />
                         </FormControl>
 
                         <FormControl isRequired>
-                          <FormLabel color="gray.400" fontSize="0.9rem" fontWeight={500} requiredIndicator={null}>
+                          <FormLabel
+                            color="gray.400"
+                            fontSize="0.9rem"
+                            fontWeight={500}
+                            requiredIndicator={null}
+                          >
                             <HStack spacing={2}>
-                              <Box color="#c9a227"><Phone size={16} /></Box>
+                              <Box color="#c9a227">
+                                <Phone size={16} />
+                              </Box>
                               <Text>Phone</Text>
                             </HStack>
                           </FormLabel>
@@ -305,22 +347,28 @@ const Contact = () => {
                             bg="#151515"
                             border="1px solid"
                             borderColor="#2a2a2a"
-                            _hover={{ borderColor: '#a68a1f', bg: '#1a1a1a' }}
-                            _focus={{ borderColor: '#c9a227', bg: '#1a1a1a' }}
-                            _placeholder={{ color: 'gray.600' }}
+                            _hover={{ borderColor: "#a68a1f", bg: "#1a1a1a" }}
+                            _focus={{ borderColor: "#c9a227", bg: "#1a1a1a" }}
+                            _placeholder={{ color: "gray.600" }}
                           />
                         </FormControl>
                       </Grid>
 
                       <Grid
-                        templateColumns={{ base: '1fr', md: '1fr 1fr' }}
+                        templateColumns={{ base: "1fr", md: "1fr 1fr" }}
                         gap={5}
                         w="full"
                       >
                         <FormControl>
-                          <FormLabel color="gray.400" fontSize="0.9rem" fontWeight={500}>
+                          <FormLabel
+                            color="gray.400"
+                            fontSize="0.9rem"
+                            fontWeight={500}
+                          >
                             <HStack spacing={2}>
-                              <Box color="#c9a227"><Mail size={16} /></Box>
+                              <Box color="#c9a227">
+                                <Mail size={16} />
+                              </Box>
                               <Text>Email</Text>
                             </HStack>
                           </FormLabel>
@@ -334,14 +382,19 @@ const Contact = () => {
                             bg="#151515"
                             border="1px solid"
                             borderColor="#2a2a2a"
-                            _hover={{ borderColor: '#a68a1f', bg: '#1a1a1a' }}
-                            _focus={{ borderColor: '#c9a227', bg: '#1a1a1a' }}
-                            _placeholder={{ color: 'gray.600' }}
+                            _hover={{ borderColor: "#a68a1f", bg: "#1a1a1a" }}
+                            _focus={{ borderColor: "#c9a227", bg: "#1a1a1a" }}
+                            _placeholder={{ color: "gray.600" }}
                           />
                         </FormControl>
 
                         <FormControl isRequired>
-                          <FormLabel color="gray.400" fontSize="0.9rem" fontWeight={500} requiredIndicator={null}>
+                          <FormLabel
+                            color="gray.400"
+                            fontSize="0.9rem"
+                            fontWeight={500}
+                            requiredIndicator={null}
+                          >
                             Product/Service
                           </FormLabel>
                           <Select
@@ -353,13 +406,13 @@ const Contact = () => {
                             bg="#151515"
                             border="1px solid"
                             borderColor="#2a2a2a"
-                            _hover={{ borderColor: '#a68a1f', bg: '#1a1a1a' }}
-                            _focus={{ borderColor: '#c9a227', bg: '#1a1a1a' }}
+                            _hover={{ borderColor: "#a68a1f", bg: "#1a1a1a" }}
+                            _focus={{ borderColor: "#c9a227", bg: "#1a1a1a" }}
                             sx={{
-                              '> option': {
-                                bg: '#151515',
-                                color: 'white',
-                              }
+                              "> option": {
+                                bg: "#151515",
+                                color: "white",
+                              },
                             }}
                           >
                             {products.map((product) => (
@@ -372,9 +425,15 @@ const Contact = () => {
                       </Grid>
 
                       <FormControl>
-                        <FormLabel color="gray.400" fontSize="0.9rem" fontWeight={500}>
+                        <FormLabel
+                          color="gray.400"
+                          fontSize="0.9rem"
+                          fontWeight={500}
+                        >
                           <HStack spacing={2}>
-                            <Box color="#c9a227"><MessageSquare size={16} /></Box>
+                            <Box color="#c9a227">
+                              <MessageSquare size={16} />
+                            </Box>
                             <Text>Additional Details</Text>
                           </HStack>
                         </FormLabel>
@@ -389,9 +448,9 @@ const Contact = () => {
                           bg="#151515"
                           border="1px solid"
                           borderColor="#2a2a2a"
-                          _hover={{ borderColor: '#a68a1f', bg: '#1a1a1a' }}
-                          _focus={{ borderColor: '#c9a227', bg: '#1a1a1a' }}
-                          _placeholder={{ color: 'gray.600' }}
+                          _hover={{ borderColor: "#a68a1f", bg: "#1a1a1a" }}
+                          _focus={{ borderColor: "#c9a227", bg: "#1a1a1a" }}
+                          _placeholder={{ color: "gray.600" }}
                         />
                         <Text
                           fontSize="0.8rem"
@@ -425,7 +484,7 @@ const Contact = () => {
         </Container>
       </Box>
     </Box>
-  )
+  );
 }
 
 export default Contact
