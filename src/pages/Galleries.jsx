@@ -30,78 +30,99 @@ import {
 } from 'lucide-react'
 import getCategoryImages from '../utils/imageLoader'
 
+// Import custom preview image for interior
+import interiorPreview from '../assets/images/interior/Modern Modular Kitchen Design _ JSR Interior & Architect.jpeg'
+
 const MotionBox = motion(Box)
 
 const Galleries = () => {
-  const [selectedGallery, setSelectedGallery] = useState(null)
-  const [selectedImage, setSelectedImage] = useState(null)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [selectedGallery, setSelectedGallery] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const galleries = [
     {
       id: 1,
-      title: 'Construction Projects',
-      category: 'construction',
+      title: "Construction Projects",
+      category: "construction",
       icon: Building2,
-      description: 'Professional construction projects across Karnataka',
+      description: "Professional construction projects across Karnataka",
     },
     {
       id: 2,
-      title: 'Interior Designs',
-      category: 'interior',
+      title: "Interior Designs",
+      category: "interior",
       icon: PaintBucket,
-      description: 'Beautiful interior transformations for homes and offices',
+      description: "Beautiful interior transformations for homes and offices",
     },
     {
       id: 3,
-      title: 'Architectural Bespoke Turnkey',
-      category: 'custom-furniture',
+      title: "Architectural Bespoke Turnkey",
+      category: "custom-furniture",
       icon: Sofa,
-      description: 'Custom sofas, recliners, and furniture pieces',
+      description: "Custom sofas, recliners, and furniture pieces",
     },
     {
       id: 4,
-      title: 'Automotive',
-      category: 'automotive',
+      title: "Automotive",
+      category: "automotive",
       icon: Car,
-      description: 'Premium car seat covers and upholstery work',
+      description: "Premium car seat covers and upholstery work",
     },
-  ]
+  ];
+
+  // Preload preview images for each category
+  const preloadedPreviews = useMemo(() => {
+    const previews = {};
+    galleries.forEach((gallery) => {
+      // Use custom preview for interior
+      if (gallery.category === "interior") {
+        previews[gallery.category] = interiorPreview;
+      } else {
+        const categoryImages = getCategoryImages(gallery.category);
+        if (categoryImages.length > 0) {
+          previews[gallery.category] = categoryImages[0].src;
+        }
+      }
+    });
+    return previews;
+  }, []);
 
   const galleryImages = useMemo(() => {
     if (selectedGallery) {
-      return getCategoryImages(selectedGallery.category)
+      return getCategoryImages(selectedGallery.category);
     }
-    return []
-  }, [selectedGallery])
+    return [];
+  }, [selectedGallery]);
 
   const openLightbox = (index) => {
-    setCurrentImageIndex(index)
-    setSelectedImage(galleryImages[index])
-  }
+    setCurrentImageIndex(index);
+    setSelectedImage(galleryImages[index]);
+  };
 
   const closeLightbox = () => {
-    setSelectedImage(null)
-  }
+    setSelectedImage(null);
+  };
 
   const nextImage = (e) => {
-    e.stopPropagation()
-    const newIndex = (currentImageIndex + 1) % galleryImages.length
-    setCurrentImageIndex(newIndex)
-    setSelectedImage(galleryImages[newIndex])
-  }
+    e.stopPropagation();
+    const newIndex = (currentImageIndex + 1) % galleryImages.length;
+    setCurrentImageIndex(newIndex);
+    setSelectedImage(galleryImages[newIndex]);
+  };
 
   const prevImage = (e) => {
-    e.stopPropagation()
-    const newIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length
-    setCurrentImageIndex(newIndex)
-    setSelectedImage(galleryImages[newIndex])
-  }
+    e.stopPropagation();
+    const newIndex =
+      (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+    setCurrentImageIndex(newIndex);
+    setSelectedImage(galleryImages[newIndex]);
+  };
 
   const closeGallery = () => {
-    setSelectedGallery(null)
-    setSelectedImage(null)
-  }
+    setSelectedGallery(null);
+    setSelectedImage(null);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -109,12 +130,12 @@ const Galleries = () => {
       opacity: 1,
       transition: { staggerChildren: 0.1 },
     },
-  }
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  }
+  };
 
   return (
     <Box>
@@ -144,14 +165,14 @@ const Galleries = () => {
             <VStack spacing={4} textAlign="center">
               <Heading
                 as="h1"
-                fontSize={{ base: '3xl', md: '5xl' }}
+                fontSize={{ base: "3xl", md: "5xl" }}
                 fontWeight={700}
                 bgGradient="linear(to-r, brand.400, white)"
                 bgClip="text"
               >
                 See Our Work
               </Heading>
-              <Text color="gray.400" fontSize={{ base: 'md', md: 'lg' }}>
+              <Text color="gray.400" fontSize={{ base: "md", md: "lg" }}>
                 Explore our portfolio of completed projects
               </Text>
             </VStack>
@@ -181,54 +202,96 @@ const Galleries = () => {
                   borderRadius="xl"
                   overflow="hidden"
                   w="full"
+                  h="340px"
+                  display="flex"
+                  flexDirection="column"
                   textAlign="left"
                   transition="all 0.3s ease"
                   _hover={{
-                    borderColor: 'brand.600',
-                    transform: 'translateY(-8px)',
-                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)',
+                    borderColor: "brand.600",
+                    transform: "translateY(-8px)",
+                    boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)",
                   }}
                 >
-                  {/* Icon Placeholder */}
-                  <Center
-                    h="180px"
-                    bg="dark.100"
+                  {/* Preview Image with Overlay */}
+                  <Box
+                    h="200px"
+                    minH="200px"
                     position="relative"
                     overflow="hidden"
                   >
-                    <Center
-                      w="80px"
-                      h="80px"
-                      rounded="2xl"
-                      bg="whiteAlpha.100"
-                      color="brand.500"
-                    >
-                      <gallery.icon size={40} />
-                    </Center>
+                    {/* Background Preview Image */}
+                    {preloadedPreviews[gallery.category] ? (
+                      <Image
+                        src={preloadedPreviews[gallery.category]}
+                        alt={gallery.title}
+                        position="absolute"
+                        top={0}
+                        left={0}
+                        w="full"
+                        h="full"
+                        objectFit="cover"
+                        transition="transform 0.5s ease"
+                        sx={{
+                          "button:hover &": { transform: "scale(1.1)" },
+                        }}
+                      />
+                    ) : (
+                      <Center position="absolute" inset={0} bg="dark.100">
+                        <Text color="gray.500" fontSize="sm">
+                          No preview
+                        </Text>
+                      </Center>
+                    )}
+
+                    {/* Gradient Overlay */}
+                    <Box
+                      position="absolute"
+                      inset={0}
+                      bgGradient="linear(to-t, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%)"
+                      transition="opacity 0.3s"
+                    />
+
                     {/* Hover Overlay */}
                     <Center
                       position="absolute"
                       inset={0}
-                      bg="blackAlpha.700"
+                      bg="blackAlpha.600"
                       opacity={0}
                       transition="opacity 0.3s"
-                      _groupHover={{ opacity: 1 }}
                       sx={{
-                        'button:hover &': { opacity: 1 },
+                        "button:hover &": { opacity: 1 },
                       }}
                     >
-                      <Text color="brand.500" fontWeight={600}>
+                      <Text color="brand.500" fontWeight={600} fontSize="lg">
                         View Gallery
                       </Text>
                     </Center>
-                  </Center>
+                  </Box>
 
                   {/* Info */}
-                  <Box p={5}>
-                    <Heading as="h3" size="md" color="white" mb={2}>
+                  <Box
+                    p={5}
+                    flex="1"
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="flex-start"
+                  >
+                    <Heading
+                      as="h3"
+                      size="md"
+                      color="white"
+                      mb={2}
+                      noOfLines={1}
+                    >
                       {gallery.title}
                     </Heading>
-                    <Text color="gray.400" fontSize="sm" lineHeight="tall">
+                    <Text
+                      color="gray.400"
+                      fontSize="sm"
+                      lineHeight="tall"
+                      noOfLines={2}
+                    >
                       {gallery.description}
                     </Text>
                   </Box>
@@ -286,8 +349,8 @@ const Galleries = () => {
                     onClick={() => openLightbox(index)}
                     transition="all 0.3s"
                     _hover={{
-                      transform: 'scale(1.02)',
-                      boxShadow: 'lg',
+                      transform: "scale(1.02)",
+                      boxShadow: "lg",
                     }}
                   >
                     <Image
@@ -298,7 +361,7 @@ const Galleries = () => {
                       objectFit="cover"
                       loading="lazy"
                       onError={(e) => {
-                        e.target.parentElement.style.display = 'none'
+                        e.target.parentElement.style.display = "none";
                       }}
                     />
                     {image.subcategory && (
@@ -325,7 +388,12 @@ const Galleries = () => {
       </Modal>
 
       {/* Lightbox Modal */}
-      <Modal isOpen={!!selectedImage} onClose={closeLightbox} size="6xl" isCentered>
+      <Modal
+        isOpen={!!selectedImage}
+        onClose={closeLightbox}
+        size="6xl"
+        isCentered
+      >
         <ModalOverlay bg="blackAlpha.900" backdropFilter="blur(8px)" />
         <ModalContent bg="transparent" boxShadow="none" maxW="90vw">
           <IconButton
@@ -338,7 +406,7 @@ const Galleries = () => {
             color="white"
             size="lg"
             aria-label="Close"
-            _hover={{ bg: 'whiteAlpha.200' }}
+            _hover={{ bg: "whiteAlpha.200" }}
           />
 
           <Flex align="center" justify="center" position="relative">
@@ -352,7 +420,7 @@ const Galleries = () => {
               size="lg"
               rounded="full"
               bg="whiteAlpha.200"
-              _hover={{ bg: 'brand.500', color: 'dark.400' }}
+              _hover={{ bg: "brand.500", color: "dark.400" }}
               aria-label="Previous"
             />
 
@@ -392,7 +460,7 @@ const Galleries = () => {
               size="lg"
               rounded="full"
               bg="whiteAlpha.200"
-              _hover={{ bg: 'brand.500', color: 'dark.400' }}
+              _hover={{ bg: "brand.500", color: "dark.400" }}
               aria-label="Next"
             />
           </Flex>
@@ -403,7 +471,7 @@ const Galleries = () => {
         </ModalContent>
       </Modal>
     </Box>
-  )
+  );
 }
 
 export default Galleries
