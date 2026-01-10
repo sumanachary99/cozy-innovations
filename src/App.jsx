@@ -10,10 +10,10 @@ import Contact from './pages/Contact'
 
 function App() {
   return (
-    <Router basename="/cozy-innovations">
+    <Router basename="/">
       <Box minH="100vh" bg="dark.400">
         <Navbar />
-        <Box as="main" pt={{ base: '64px', md: '72px' }}>
+        <Box as="main" pt={{ base: "64px", md: "72px" }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
@@ -25,7 +25,7 @@ function App() {
         <Footer />
       </Box>
     </Router>
-  )
+  );
 }
 
 export default App
