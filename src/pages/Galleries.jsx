@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useMemo, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Box,
   Container,
@@ -18,7 +18,7 @@ import {
   ModalCloseButton,
   IconButton,
   Badge,
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 import {
   Building2,
   PaintBucket,
@@ -27,18 +27,20 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-} from 'lucide-react'
-import getCategoryImages from '../utils/imageLoader'
+} from "lucide-react";
+import getCategoryImages from "../utils/imageLoader";
 
 // Import custom preview image for interior
-import interiorPreview from '../assets/images/interior/Modern Modular Kitchen Design _ JSR Interior & Architect.jpeg'
+import interiorPreview from "../assets/images/interior/Modern Modular Kitchen Design _ JSR Interior & Architect.jpeg";
 
-const MotionBox = motion(Box)
+const MotionBox = motion(Box);
 
 const Galleries = () => {
   const [selectedGallery, setSelectedGallery] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  // Force re-render trigger to ensure images load after mount
+  const [imagesReady, setImagesReady] = useState(false);
 
   const galleries = [
     {
@@ -71,6 +73,15 @@ const Galleries = () => {
     },
   ];
 
+  // Force re-render after component mount to ensure images are loaded
+  useEffect(() => {
+    // Small delay to ensure Vite's glob imports are fully resolved
+    const timer = setTimeout(() => {
+      setImagesReady(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   // Preload preview images for each category
   const preloadedPreviews = useMemo(() => {
     const previews = {};
@@ -86,7 +97,7 @@ const Galleries = () => {
       }
     });
     return previews;
-  }, []);
+  }, [imagesReady]); // Re-compute when imagesReady changes
 
   const galleryImages = useMemo(() => {
     if (selectedGallery) {
@@ -472,6 +483,6 @@ const Galleries = () => {
       </Modal>
     </Box>
   );
-}
+};
 
-export default Galleries
+export default Galleries;
