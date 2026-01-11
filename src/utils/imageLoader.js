@@ -2,35 +2,6 @@
 // Uses Vite's glob import to automatically discover all images
 // Returns array of image objects with src and display name
 
-// Helper function to normalize image URLs for cross-browser compatibility
-const normalizeImageUrl = (imageModule) => {
-  // Handle different return types from Vite's glob import
-  if (typeof imageModule === 'string') {
-    return imageModule;
-  }
-  
-  // If it's a module object, extract the URL
-  if (typeof imageModule === 'object' && imageModule !== null) {
-    // Try common properties
-    if (imageModule.default) {
-      return normalizeImageUrl(imageModule.default);
-    }
-    if (imageModule.url) {
-      return imageModule.url;
-    }
-    if (imageModule.src) {
-      return imageModule.src;
-    }
-    // If it's a URL object, convert to string
-    if (imageModule instanceof URL) {
-      return imageModule.href;
-    }
-  }
-  
-  // Fallback: convert to string
-  return String(imageModule);
-}
-
 // Import all images from src/assets/images
 const imageModules = import.meta.glob('../assets/images/**/*.{jpeg,jpg,png,webp,gif}', {
   eager: true,
@@ -103,17 +74,11 @@ const getCategoryImages = (category) => {
   // Path in imageModules will be like '../assets/images/construction/file.jpeg'
   Object.keys(imageModules).forEach((path, index) => {
     if (path.includes(`/images/${folderPath}/`)) {
-      // Normalize the image URL for cross-browser compatibility
-      const imageSrc = normalizeImageUrl(imageModules[path]);
-      
-      // Only add if we have a valid URL
-      if (imageSrc && typeof imageSrc === 'string' && imageSrc.length > 0) {
-        images.push({
-          src: imageSrc,
-          name: cleanDisplayName(path, category, index),
-          subcategory: null
-        })
-      }
+      images.push({
+        src: imageModules[path],
+        name: cleanDisplayName(path, category, index),
+        subcategory: null
+      })
     }
   })
 
