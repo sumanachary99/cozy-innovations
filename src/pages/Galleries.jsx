@@ -41,6 +41,8 @@ const Galleries = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   // Force re-render trigger to ensure images load after mount
   const [imagesReady, setImagesReady] = useState(false);
+  // Track failed images for fallback display
+  const [failedImages, setFailedImages] = useState(new Set());
 
   const galleries = [
     {
@@ -75,11 +77,42 @@ const Galleries = () => {
 
   // Force re-render after component mount to ensure images are loaded
   useEffect(() => {
-    // Small delay to ensure Vite's glob imports are fully resolved
+    // Longer delay for Safari and mobile browsers to ensure Vite's glob imports are fully resolved
+    // Safari sometimes needs more time to process module imports
     const timer = setTimeout(() => {
       setImagesReady(true);
-    }, 100);
-    return () => clearTimeout(timer);
+    }, 300);
+    
+    // Preload images for better cross-browser support, especially Safari
+    galleries.forEach((gallery) => {
+      if (gallery.category === "interior") {
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
+        let interiorSrc = interiorPreview;
+        if (typeof interiorSrc === 'object' && interiorSrc !== null) {
+          interiorSrc = interiorSrc.default || interiorSrc.url || interiorSrc;
+        }
+        if (interiorSrc instanceof URL) {
+          interiorSrc = interiorSrc.href;
+        }
+        link.href = typeof interiorSrc === 'string' ? interiorSrc : String(interiorSrc);
+        document.head.appendChild(link);
+      } else {
+        const categoryImages = getCategoryImages(gallery.category);
+        if (categoryImages.length > 0 && categoryImages[0].src) {
+          const link = document.createElement('link');
+          link.rel = 'preload';
+          link.as = 'image';
+          link.href = categoryImages[0].src;
+          document.head.appendChild(link);
+        }
+      }
+    });
+    
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   // Preload preview images for each category
@@ -88,10 +121,18 @@ const Galleries = () => {
     galleries.forEach((gallery) => {
       // Use custom preview for interior
       if (gallery.category === "interior") {
-        previews[gallery.category] = interiorPreview;
+        // Normalize interior preview URL
+        let interiorSrc = interiorPreview;
+        if (typeof interiorSrc === 'object' && interiorSrc !== null) {
+          interiorSrc = interiorSrc.default || interiorSrc.url || interiorSrc;
+        }
+        if (interiorSrc instanceof URL) {
+          interiorSrc = interiorSrc.href;
+        }
+        previews[gallery.category] = typeof interiorSrc === 'string' ? interiorSrc : String(interiorSrc);
       } else {
         const categoryImages = getCategoryImages(gallery.category);
-        if (categoryImages.length > 0) {
+        if (categoryImages.length > 0 && categoryImages[0].src) {
           previews[gallery.category] = categoryImages[0].src;
         }
       }
@@ -232,7 +273,7 @@ const Galleries = () => {
                     overflow="hidden"
                   >
                     {/* Background Preview Image */}
-                    {preloadedPreviews[gallery.category] ? (
+                    {preloadedPreviews[gallery.category] && !failedImages.has(gallery.category) ? (
                       <Image
                         src={preloadedPreviews[gallery.category]}
                         alt={gallery.title}
@@ -243,15 +284,22 @@ const Galleries = () => {
                         h="full"
                         objectFit="cover"
                         transition="transform 0.5s ease"
+                        loading="eager"
+                        decoding="async"
+                        onError={(e) => {
+                          console.warn(`Failed to load image for ${gallery.category}:`, e.target.src);
+                          setFailedImages(prev => new Set(prev).add(gallery.category));
+                        }}
                         sx={{
                           "button:hover &": { transform: "scale(1.1)" },
                         }}
                       />
-                    ) : (
-                      <Center position="absolute" inset={0} bg="dark.100">
-                        <Text color="gray.500" fontSize="sm">
-                          No preview
-                        </Text>
+                    ) : null}
+                    
+                    {/* Fallback icon - shown when no image or image fails */}
+                    {(!preloadedPreviews[gallery.category] || failedImages.has(gallery.category)) && (
+                      <Center position="absolute" inset={0} bg="dark.100" zIndex={1}>
+                        <gallery.icon size={48} color="gray" opacity={0.5} />
                       </Center>
                     )}
 
