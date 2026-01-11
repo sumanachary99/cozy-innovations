@@ -41,6 +41,8 @@ const Galleries = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   // Force re-render trigger to ensure images load after mount
   const [imagesReady, setImagesReady] = useState(false);
+  // Track image load errors
+  const [imageErrors, setImageErrors] = useState({});
 
   const galleries = [
     {
@@ -75,10 +77,34 @@ const Galleries = () => {
 
   // Force re-render after component mount to ensure images are loaded
   useEffect(() => {
-    // Small delay to ensure Vite's glob imports are fully resolved
-    const timer = setTimeout(() => {
-      setImagesReady(true);
-    }, 100);
+    let retryCount = 0;
+    const maxRetries = 10; // Maximum 10 retries (about 2 seconds total)
+    
+    // Check if images are available, retry if not
+    const checkImagesReady = () => {
+      let allReady = true;
+      galleries.forEach((gallery) => {
+        if (gallery.category === "interior") {
+          // Interior uses direct import, should be ready
+          return;
+        }
+        const categoryImages = getCategoryImages(gallery.category);
+        if (categoryImages.length === 0) {
+          allReady = false;
+        }
+      });
+      
+      if (allReady || retryCount >= maxRetries) {
+        setImagesReady(true);
+      } else {
+        retryCount++;
+        // Retry after a longer delay if images aren't ready
+        setTimeout(checkImagesReady, 200);
+      }
+    };
+    
+    // Initial check with small delay
+    const timer = setTimeout(checkImagesReady, 100);
     return () => clearTimeout(timer);
   }, []);
 
@@ -90,9 +116,13 @@ const Galleries = () => {
       if (gallery.category === "interior") {
         previews[gallery.category] = interiorPreview;
       } else {
-        const categoryImages = getCategoryImages(gallery.category);
-        if (categoryImages.length > 0) {
-          previews[gallery.category] = categoryImages[0].src;
+        try {
+          const categoryImages = getCategoryImages(gallery.category);
+          if (categoryImages && categoryImages.length > 0 && categoryImages[0].src) {
+            previews[gallery.category] = categoryImages[0].src;
+          }
+        } catch (error) {
+          console.warn(`Failed to load images for category ${gallery.category}:`, error);
         }
       }
     });
@@ -242,16 +272,33 @@ const Galleries = () => {
                         w="full"
                         h="full"
                         objectFit="cover"
-                        transition="transform 0.5s ease"
+                        transition="transform 0.5s ease, opacity 0.3s ease"
+                        opacity={imageErrors[gallery.category] ? 0 : 1}
+                        onError={(e) => {
+                          // Mark this image as failed
+                          setImageErrors((prev) => ({
+                            ...prev,
+                            [gallery.category]: true,
+                          }));
+                        }}
+                        onLoad={() => {
+                          // Clear error state if image loads successfully
+                          setImageErrors((prev) => {
+                            const newErrors = { ...prev };
+                            delete newErrors[gallery.category];
+                            return newErrors;
+                          });
+                        }}
                         sx={{
                           "button:hover &": { transform: "scale(1.1)" },
                         }}
                       />
-                    ) : (
-                      <Center position="absolute" inset={0} bg="dark.100">
-                        <Text color="gray.500" fontSize="sm">
-                          No preview
-                        </Text>
+                    ) : null}
+                    
+                    {/* Fallback when no image or image failed */}
+                    {(!preloadedPreviews[gallery.category] || imageErrors[gallery.category]) && (
+                      <Center position="absolute" inset={0} bg="dark.100" zIndex={imageErrors[gallery.category] ? 1 : 0}>
+                        <gallery.icon size={48} color="gray" opacity={0.5} />
                       </Center>
                     )}
 
