@@ -181,7 +181,7 @@ const Home = () => {
                       onError={(e) => {
                         console.error(
                           "Image failed to load:",
-                          currentService.image
+                          currentService.image,
                         );
                         e.target.src = logoPlaceholder;
                       }}
@@ -222,6 +222,12 @@ const Home = () => {
                     variant="primary"
                     size={{ base: "md", md: "lg" }}
                     rightIcon={<ArrowRight size={18} />}
+                    maxW="100%"
+                    whiteSpace="normal"
+                    textAlign="center"
+                    height="auto"
+                    py={3}
+                    px={{ base: 4, md: 6 }}
                   >
                     Explore {currentService.title}
                   </Button>
