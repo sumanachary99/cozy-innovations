@@ -10,7 +10,7 @@ import Contact from './pages/Contact'
 
 function App() {
   return (
-    <Router basename="/">
+    <Router basename={import.meta.env.BASE_URL}>
       <Box minH="100vh" bg="dark.400">
         <Navbar />
         <Box as="main" pt={{ base: "64px", md: "72px" }}>
