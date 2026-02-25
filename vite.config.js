@@ -2,9 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
-// For custom domain: set base to '/'
+// No custom domain: set base to repo sub-path
 export default defineConfig({
   plugins: [react()],
-  base: '/',
+  base: '/cozy-innovations/',
 })
 
